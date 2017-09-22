@@ -299,9 +299,8 @@ public class OVRCamera : MonoBehaviour
 		// Multiply the camera controllers offset orientation (allow follow of orientation offset)
 		Quaternion orientationOffset = Quaternion.identity;
 		CameraController.GetOrientationOffset(ref orientationOffset);
-		print (orientationOffset);
 		qp = orientationOffset * qp * CameraOrientationOffset;
-		print (CameraOrientation);
+
 		// Multiply in the current HeadQuat (q is now the latest best rotation)
 		Quaternion q = qp * CameraOrientation;
 		
