@@ -288,7 +288,7 @@ public class OVRCamera : MonoBehaviour
 
 		// Calculate the rotation Y offset that is getting updated externally
 		// (i.e. like a controller rotation)
-		 CameraOrientation = GameObject.FindGameObjectWithTag ("Player").transform.rotation;
+		 CameraOrientation = Quaternion.identity;
 
 		float yRotation = 0.0f;
 		CameraController.GetYRotation(ref yRotation);

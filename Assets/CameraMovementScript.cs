@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraMovementScript : MonoBehaviour {
 
 	public float speed;
+	public float forwardSpeed;
 	public float GravityModifier   = 0.379f;	
 	public Transform ovr;
 
@@ -61,11 +62,11 @@ public class CameraMovementScript : MonoBehaviour {
 		Vector3 moveDirection = Vector3.zero;
 
 		if(Input.GetKey(KeyCode.UpArrow)){
-			gameObject.transform.Translate(Vector3.forward);
+			gameObject.transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed);
 	 	}
 
 		if(Input.GetKey(KeyCode.DownArrow)){
-			gameObject.transform.Translate(Vector3.back);
+			gameObject.transform.Translate(Vector3.back * Time.deltaTime * forwardSpeed);
 		}
 
 		if(Input.GetKey(KeyCode.LeftArrow)){
@@ -79,7 +80,7 @@ public class CameraMovementScript : MonoBehaviour {
 		if(Input.GetKey(KeyCode.Space)){
 			gameObject.transform.Translate(Vector3.up);
 		}
-
+		return;
 		if (Controller.isGrounded && FallSpeed <= 0)
 			FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));	
 		else
