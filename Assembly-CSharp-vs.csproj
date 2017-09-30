@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\BehaviourScript.cs" />
      <Compile Include="Assets\CameraMovementScript.cs" />
+     <Compile Include="Assets\HandleBarScript.cs" />
      <Compile Include="Assets\NewBehaviourScript.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
@@ -63,8 +64,14 @@
      <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
+     <Compile Include="Assets\WheelMovement.cs" />
      <None Include="Assets\Plugins\donotdelete.txt" />
+     <None Include="Assets\MountainBike\Shaders\Comp_Illumin-Reflect-Diffuse.shader" />
      <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
+     <None Include="Assets\MountainBike\Shaders\Comp_Reflect-Diffuse.shader" />
+     <None Include="Assets\MountainBike\Shaders\Comp_Base-Specular.shader" />
+     <None Include="Assets\MountainBike\Shaders\Comp_Illumin-Alpha-Diffuse2S.shader" />
+     <None Include="Assets\MountainBike\Shaders\Comp_Base-Diffuse.shader" />
      <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
