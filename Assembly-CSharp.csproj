@@ -49,6 +49,7 @@
      <Compile Include="Assets\BehaviourScript.cs" />
      <Compile Include="Assets\CameraMovementScript.cs" />
      <Compile Include="Assets\HandleBarScript.cs" />
+     <Compile Include="Assets\InputOutput.cs" />
      <Compile Include="Assets\NewBehaviourScript.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />

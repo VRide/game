@@ -9,12 +9,27 @@ public class CameraMovementScript : MonoBehaviour {
 	public Transform ovr;
 	public float acceleration;
 	public float drag;
+	public GameObject lastCollided;
 	
 	private float   FallSpeed 	   = 0.0f;
 	protected CharacterController 	Controller 		 = null;
 	protected OVRCameraController 	CameraController = null;
 	protected Transform DirXform = null;
 
+	void OnCollisionStay(Collision collision)
+	{
+		foreach (ContactPoint contact in collision.contacts) {
+			Debug.DrawRay(contact.point, contact.normal * 10, Color.white);
+		}
+		if (collision.gameObject.CompareTag ("Respawn") && collision.contacts.Length >= 4) {
+			lastCollided = collision.gameObject;
+		}
+	}
+	/*
+	void OnCollisionStay()
+	{
+	}
+	*/
 	void Awake()
 	{		
 		// We use Controller to move player around
@@ -56,12 +71,26 @@ public class CameraMovementScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		InputOutput.Start ();
 	}
-	
+
+	void Reset() {
+		float height = (lastCollided.GetComponent<Collider> ().bounds.size.y / 2f + lastCollided.transform.position.y) + 0.95f;
+		gameObject.transform.position = lastCollided.transform.position + new Vector3(0f, height, 0f);
+		gameObject.transform.rotation = lastCollided.transform.rotation;
+		forwardSpeed = 0f;
+	}
+
 	// Update is called once per frame
 	void Update () {
+		// FIXME: More elegant solution
+		InputOutput.Update ();
 		Vector3 moveDirection = Vector3.zero;
+
+		float diff = (lastCollided.GetComponent<Collider> ().bounds.size.y /2.7f);
+
+		print (gameObject.transform.position.y - (lastCollided.GetComponent<Collider>().bounds.size.y /2.7f));
+		print (lastCollided.GetComponent<Collider>().bounds.size);
 
 		Vector3 vel = rigidbody.velocity;
 		forwardSpeed = Mathf.Clamp (forwardSpeed - drag * Time.deltaTime, 0, 10);
@@ -78,16 +107,13 @@ public class CameraMovementScript : MonoBehaviour {
 		//rigidbody.velocity = new Vector3(vel.x, vel.y, forwardSpeed);
 		gameObject.transform.Translate (Vector3.forward * Time.deltaTime * forwardSpeed);
 
-		if(Input.GetKey(KeyCode.LeftArrow) && forwardSpeed != 0f){
-			gameObject.transform.Rotate(new Vector3(0, -speed * Time.deltaTime, 0));
+		if(forwardSpeed != 0f){
+			gameObject.transform.Rotate(new Vector3(0, InputOutput.GetGuidonRotation() * Time.deltaTime, 0));
 		}
 
-		if(Input.GetKey(KeyCode.RightArrow) && forwardSpeed != 0f){
-			gameObject.transform.Rotate(new Vector3(0, speed * Time.deltaTime, 0));
-		}
-
-		if(Input.GetKey(KeyCode.Space)){
-			gameObject.transform.Translate(Vector3.up);
+		float angle = Mathf.Abs(gameObject.transform.rotation.eulerAngles.z);
+		if(angle >= 45f && angle <= 315f){
+			Reset();
 		}
 		return;
 		if (Controller.isGrounded && FallSpeed <= 0)
