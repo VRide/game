@@ -188,10 +188,6 @@ public class OVRCamera : MonoBehaviour
         
 	}
 
-	void Update(){
-
-	}
-
     static int PendingEyeCount = 0;
 
 	void OnPreCull()
@@ -272,7 +268,7 @@ public class OVRCamera : MonoBehaviour
 				Vector3 a = camera.transform.rotation.eulerAngles;
 				a.x = 0; 
 				a.z = 0;
-				//transform.parent.transform.eulerAngles = a;
+				transform.parent.transform.eulerAngles = a;
 			}
 
 			ovrPosef renderPose = OVR_GetRenderPose();
@@ -285,11 +281,9 @@ public class OVRCamera : MonoBehaviour
 			if(useOrt)
 				CameraOrientation = renderPose.Orientation.ToQuaternion();
 		}
-
+		
 		// Calculate the rotation Y offset that is getting updated externally
 		// (i.e. like a controller rotation)
-		 CameraOrientation = Quaternion.identity;
-
 		float yRotation = 0.0f;
 		CameraController.GetYRotation(ref yRotation);
 		Quaternion qp = Quaternion.Euler(0.0f, yRotation, 0.0f);
@@ -300,19 +294,17 @@ public class OVRCamera : MonoBehaviour
 		Quaternion orientationOffset = Quaternion.identity;
 		CameraController.GetOrientationOffset(ref orientationOffset);
 		qp = orientationOffset * qp * CameraOrientationOffset;
-
+		
 		// Multiply in the current HeadQuat (q is now the latest best rotation)
 		Quaternion q = qp * CameraOrientation;
 		
 		// * * *
 		// Update camera rotation
 		camera.transform.rotation = q;
-
+		
 		// * * *
 		// Update camera position (first add Offset to parent transform)
 		camera.transform.localPosition = NeckPosition;
-
-
 	
 		// Adjust neck by taking eye position and transforming through q
 		// Get final camera position as well as the clipping difference 
@@ -330,6 +322,7 @@ public class OVRCamera : MonoBehaviour
 				Vector3 newPos = -(qp * CameraPositionOffset);
 				// Final position
 				newPos += camera.transform.position;
+			
 				// Set the game object info
 				obj.CameraGameObject.transform.position = newPos;
 				obj.CameraGameObject.transform.rotation = qp;

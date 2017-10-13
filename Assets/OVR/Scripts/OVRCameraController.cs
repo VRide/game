@@ -66,9 +66,6 @@ public class OVRCameraController : MonoBehaviour
 	#endregion
 
 	#region Public Members
-
-	public int speed;
-	
 	public Camera CameraMain { get; private set; }
 	#endregion
 

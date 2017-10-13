@@ -4,12 +4,10 @@ using System.Collections;
 public class CameraMovementScript : MonoBehaviour {
 
 	public float speed;
-	public float forwardSpeed = 0f;
+	public float forwardSpeed;
 	public float GravityModifier   = 0.379f;	
 	public Transform ovr;
-	public float acceleration;
-	public float drag;
-	
+
 	private float   FallSpeed 	   = 0.0f;
 	protected CharacterController 	Controller 		 = null;
 	protected OVRCameraController 	CameraController = null;
@@ -63,26 +61,19 @@ public class CameraMovementScript : MonoBehaviour {
 	void Update () {
 		Vector3 moveDirection = Vector3.zero;
 
-		Vector3 vel = rigidbody.velocity;
-		forwardSpeed = Mathf.Clamp (forwardSpeed - drag * Time.deltaTime, 0, 10);
-
 		if(Input.GetKey(KeyCode.UpArrow)){
-			//gameObject.transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed);
-			forwardSpeed = Mathf.Clamp (forwardSpeed + acceleration * Time.deltaTime, 0, 10);
+			gameObject.transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed);
 	 	}
 
 		if(Input.GetKey(KeyCode.DownArrow)){
-			//gameObject.transform.Translate(Vector3.back * Time.deltaTime * forwardSpeed);
+			gameObject.transform.Translate(Vector3.back * Time.deltaTime * forwardSpeed);
 		}
 
-		//rigidbody.velocity = new Vector3(vel.x, vel.y, forwardSpeed);
-		gameObject.transform.Translate (Vector3.forward * Time.deltaTime * forwardSpeed);
-
-		if(Input.GetKey(KeyCode.LeftArrow) && forwardSpeed != 0f){
+		if(Input.GetKey(KeyCode.LeftArrow)){
 			gameObject.transform.Rotate(new Vector3(0, -speed * Time.deltaTime, 0));
 		}
 
-		if(Input.GetKey(KeyCode.RightArrow) && forwardSpeed != 0f){
+		if(Input.GetKey(KeyCode.RightArrow)){
 			gameObject.transform.Rotate(new Vector3(0, speed * Time.deltaTime, 0));
 		}
 

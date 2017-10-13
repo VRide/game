@@ -234,15 +234,15 @@ public class OVRPlayerController : MonoBehaviour
 		// Move
 			
 		// WASD
-		// if (Input.GetKey(KeyCode.W)) moveForward = true;
-		// if (Input.GetKey(KeyCode.A)) moveLeft	 = true;
-		// if (Input.GetKey(KeyCode.S)) moveBack 	 = true; 
-		// if (Input.GetKey(KeyCode.D)) moveRight 	 = true; 
+		if (Input.GetKey(KeyCode.W)) moveForward = true;
+		if (Input.GetKey(KeyCode.A)) moveLeft	 = true;
+		if (Input.GetKey(KeyCode.S)) moveBack 	 = true; 
+		if (Input.GetKey(KeyCode.D)) moveRight 	 = true; 
 		// Arrow keys
-		// if (Input.GetKey(KeyCode.UpArrow))    moveForward = true;
-		// if (Input.GetKey(KeyCode.LeftArrow))  moveLeft 	  = true;
-		// if (Input.GetKey(KeyCode.DownArrow))  moveBack 	  = true; 
-		// if (Input.GetKey(KeyCode.RightArrow)) moveRight   = true; 
+		if (Input.GetKey(KeyCode.UpArrow))    moveForward = true;
+		if (Input.GetKey(KeyCode.LeftArrow))  moveLeft 	  = true;
+		if (Input.GetKey(KeyCode.DownArrow))  moveBack 	  = true; 
+		if (Input.GetKey(KeyCode.RightArrow)) moveRight   = true; 
 
 		// D-Pad
 		bool dpad_move = false;
