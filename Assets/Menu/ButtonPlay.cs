@@ -1,50 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class ButtonPlay : MonoBehaviour {
-	public int timeRemaining = 5;
-	
-	void countDown(){
-		timeRemaining--;
-		print(timeRemaining);
-		if(timeRemaining <= 0){
-			goToScene();
-			CancelInvoke("countDown");
-			timeRemaining = 5;
-		}
-	}
-	
-	void goToScene(){
+public class ButtonPlay : MenuButton {
 
-		GameObject.Find("Arrow2").GetComponent<Button>().enabled = false;
-		GameObject.Find("Arrow2").transform.localScale = new Vector3(0,0,0);
+	public override void doAction(){
 		
-		GameObject.Find("Play").GetComponent<Button>().enabled = false;
-		GameObject.Find("Play").transform.localScale = new Vector3(0,0,0);
+		string[] hiddenButtons = new string[] {"Arrow2", "Play", "Arrow1", "Running", "Free"};
 		
-		GameObject.Find("Arrow1").GetComponent<Button>().enabled = false;
-		GameObject.Find ("Arrow1").transform.localScale = new Vector3 (0,0,0);
+		Dictionary<string, Vector3> showButtons = new Dictionary<string, Vector3>();
 		
-		GameObject.Find ("Girl").GetComponent<Button> ().enabled = true;
-		GameObject.Find("Girl").transform.localScale = new Vector3(1,1,1);
+		Vector3 dimension = new Vector3(2, 2, 2);
 		
-		GameObject.Find("Boy").GetComponent<Button>().enabled = true;
-		GameObject.Find("Boy").transform.localScale = new Vector3(1,1,1);
-
-		GameObject.Find ("Running").GetComponent<Button> ().enabled = false;
-		GameObject.Find("Running").transform.localScale = new Vector3(0,0,0);
+		showButtons.Add("Girl", dimension);
+		showButtons.Add("Boy", dimension);
 		
-		GameObject.Find("Free").GetComponent<Button>().enabled = false;
-		GameObject.Find("Free").transform.localScale = new Vector3(0,0,0);
-	}
-	
-	public void MouseOver(){
-		InvokeRepeating("countDown", 1,1);
-	}
-	
-	public void MouseOut(){
-		CancelInvoke("countDown");
-		timeRemaining = 5;
+		disableButton(hiddenButtons);
+		enableButton(showButtons);
 	}
 }

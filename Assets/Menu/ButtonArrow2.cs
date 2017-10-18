@@ -1,51 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class ButtonArrow2 : MonoBehaviour {
-	public int timeRemaining = 5;
+public class ButtonArrow2 : MenuButton {
 	
-	void countDown(){
-		timeRemaining--;
-		print(timeRemaining);
-		if(timeRemaining <= 0){
-			goToScene();
-			CancelInvoke("countDown");
-			timeRemaining = 5;
-		}
-	}
-	
-	void goToScene(){
-		print("entrouu");
-		GameObject.Find("Arrow2").GetComponent<Button>().enabled = false;
-		GameObject.Find("Arrow2").transform.localScale = new Vector3(0,0,0);
+	public override void doAction(){
 		
-		GameObject.Find("Play").GetComponent<Button>().enabled = false;
-		GameObject.Find("Play").transform.localScale = new Vector3(0,0,0);
+		string[] hiddenButtons = new string[] {"Arrow1", "Girl","Boy","Play", "Running", "Free"};
 		
-		GameObject.Find("Arrow1").GetComponent<Button>().enabled = true;
-		GameObject.Find ("Arrow1").transform.localScale = new Vector3 (1, 1, 1);
+		Dictionary<string, Vector3> showButtons = new Dictionary<string, Vector3>();
+		
+		Vector3 dimension = new Vector3 (2, 2, 2);
+		
+		showButtons.Add("Arrow1", dimension);
 
-		GameObject.Find ("Girl").GetComponent<Button> ().enabled = false;
-		GameObject.Find("Girl").transform.localScale = new Vector3(0,0,0);
-		
-		GameObject.Find("Boy").GetComponent<Button>().enabled = false;
-		GameObject.Find("Boy").transform.localScale = new Vector3(0,0,0);
-
-		GameObject.Find ("Running").GetComponent<Button> ().enabled = false;
-		GameObject.Find("Running").transform.localScale = new Vector3(0,0,0);
-		
-		GameObject.Find("Free").GetComponent<Button>().enabled = false;
-		GameObject.Find("Free").transform.localScale = new Vector3(0,0,0);
-		                                                       
-     }
-     
-    public void MouseOver(){
-		InvokeRepeating("countDown", 1,1);
+		disableButton(hiddenButtons);
+		enableButton(showButtons);
 	}
-		
-	public void MouseOut(){
-		CancelInvoke("countDown");
-		timeRemaining = 5;
-	}
-}
+}	                                                      

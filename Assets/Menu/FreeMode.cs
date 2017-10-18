@@ -1,33 +1,10 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 
-public class FreeMode : MonoBehaviour {
-	public int timeRemaining = 5;
+public class FreeMode : MenuButton {
 	
-	void countDown(){
-		timeRemaining--;
-		print(timeRemaining);
-		if(timeRemaining <= 0){
-			goToScene();
-			CancelInvoke("countDown");
-			timeRemaining = 5;
-		}
-	}
-	
-	void goToScene(){
-		print("entrouu");
-		Application.LoadLevel ("main");
-		
-	}
-	
-	public void MouseOver(){
-		InvokeRepeating("countDown", 1,1);
-	}
-	
-	public void MouseOut(){
-		CancelInvoke("countDown");
-		timeRemaining = 5;
+	public override void doAction(){
+		Application.LoadLevel("main");
 	}
 }
 
