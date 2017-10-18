@@ -25,6 +25,18 @@ public class ButtonArrow2 : MonoBehaviour {
 		
 		GameObject.Find("Arrow1").GetComponent<Button>().enabled = true;
 		GameObject.Find ("Arrow1").transform.localScale = new Vector3 (1, 1, 1);
+
+		GameObject.Find ("Girl").GetComponent<Button> ().enabled = false;
+		GameObject.Find("Girl").transform.localScale = new Vector3(0,0,0);
+		
+		GameObject.Find("Boy").GetComponent<Button>().enabled = false;
+		GameObject.Find("Boy").transform.localScale = new Vector3(0,0,0);
+
+		GameObject.Find ("Running").GetComponent<Button> ().enabled = false;
+		GameObject.Find("Running").transform.localScale = new Vector3(0,0,0);
+		
+		GameObject.Find("Free").GetComponent<Button>().enabled = false;
+		GameObject.Find("Free").transform.localScale = new Vector3(0,0,0);
 		                                                       
      }
      
