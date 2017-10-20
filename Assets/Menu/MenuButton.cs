@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class MenuButton : MonoBehaviour{
-	public int timeRemaining = 5;
+	public int timeRemaining = 3;
 	
 	public void countDown(){
 		timeRemaining--;
@@ -12,7 +12,7 @@ public class MenuButton : MonoBehaviour{
 		if(timeRemaining <= 0){
 			doAction();
 			CancelInvoke("countDown");
-			timeRemaining = 5;
+			timeRemaining = 3;
 		}
 	}
 	
@@ -41,7 +41,7 @@ public class MenuButton : MonoBehaviour{
 
 	public void MouseOut(){
 		CancelInvoke("countDown");
-		timeRemaining = 5;
+		timeRemaining = 3;
 	}
 }
 

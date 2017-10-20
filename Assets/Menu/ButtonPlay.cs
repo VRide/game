@@ -6,7 +6,7 @@ public class ButtonPlay : MenuButton {
 
 	public override void doAction(){
 		
-		string[] hiddenButtons = new string[] {"Arrow2", "Play", "Arrow1", "Running", "Free"};
+		string[] hiddenButtons = new string[] {"Arrow2", "Play", "Arrow1", "Running", "Free", "NumberTurns", "RoundMinor", "RoundPlus"};
 		
 		Dictionary<string, Vector3> showButtons = new Dictionary<string, Vector3>();
 		
