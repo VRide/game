@@ -15,17 +15,13 @@ public class HandleBarScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 q = gameObject.transform.rotation.eulerAngles;
+		Vector3 q = gameObject.transform.localRotation.eulerAngles;
 
-		gameObject.transform.rotation = Quaternion.Euler (q.x, q.y, originalZ);
+		gameObject.transform.localRotation = Quaternion.Euler (q.x, q.y, InputOutput.GetGuidonRotation());
 
-		if(Input.GetKey(KeyCode.LeftArrow)){
-			Quaternion newQ = Quaternion.Euler(q.x, q.y, originalZ - 30);
-			gameObject.transform.rotation = newQ;
-		}
-		
-		if(Input.GetKey(KeyCode.RightArrow)){
-			gameObject.transform.rotation = Quaternion.Euler(q.x, q.y, originalZ + 30);
-		}	
+
+
+
+		// gameObject.transform.rotation = Quaternion.Euler (q.x, q.y, originalZ - InputOutput.GetGuidonRotation ());
 	}
 }

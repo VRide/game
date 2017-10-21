@@ -20,10 +20,10 @@ public class InputOutput {
 
 		guidonRotation = 0f;
 		if(Input.GetKey(KeyCode.LeftArrow)){
-			guidonRotation = -30f;
+			guidonRotation = -45f;
 			// gameObject.transform.Rotate(new Vector3(0, -speed * Time.deltaTime, 0));
 		}else if(Input.GetKey(KeyCode.RightArrow)){
-			guidonRotation = 30f;
+			guidonRotation = 45f;
 			// gameObject.transform.Rotate(new Vector3(0, speed * Time.deltaTime, 0));
 		}
 

@@ -5,7 +5,8 @@ public class CameraMovementScript : MonoBehaviour {
 
 	public float speed;
 	public float forwardSpeed = 0f;
-	public float GravityModifier   = 0.379f;	
+	public float GravityModifier   = 0.379f;
+	public float maxSpeed;
 	public Transform ovr;
 	public float acceleration;
 	public float drag;
@@ -23,6 +24,12 @@ public class CameraMovementScript : MonoBehaviour {
 		}
 		if (collision.gameObject.CompareTag ("Respawn") && collision.contacts.Length >= 4) {
 			lastCollided = collision.gameObject;
+		}
+	}
+
+	void OnTriggerEnter(Collider collider){
+		if (collider.gameObject.CompareTag ("Terrain")) {
+			Reset();
 		}
 	}
 	/*
@@ -76,8 +83,15 @@ public class CameraMovementScript : MonoBehaviour {
 
 	void Reset() {
 		float height = (lastCollided.GetComponent<Collider> ().bounds.size.y / 2f + lastCollided.transform.position.y) + 0.95f;
+		Vector3 orientation = lastCollided.GetComponent<Collider> ().transform.rotation.eulerAngles;
+
+		rigidbody.velocity = new Vector3(0f,0f,0f); 
+		rigidbody.angularVelocity = new Vector3(0f,0f,0f);
+
 		gameObject.transform.position = lastCollided.transform.position + new Vector3(0f, height, 0f);
-		gameObject.transform.rotation = lastCollided.transform.rotation;
+		gameObject.transform.rotation = Quaternion.Euler(orientation + new Vector3(0, 270, 0));
+		gameObject.transform.FindChild ("MountainBike_01").transform.localRotation = Quaternion.Euler(new Vector3(270, 270, 0));
+
 		forwardSpeed = 0f;
 	}
 
@@ -89,20 +103,13 @@ public class CameraMovementScript : MonoBehaviour {
 
 		float diff = (lastCollided.GetComponent<Collider> ().bounds.size.y /2.7f);
 
-		print (gameObject.transform.position.y - (lastCollided.GetComponent<Collider>().bounds.size.y /2.7f));
-		print (lastCollided.GetComponent<Collider>().bounds.size);
-
 		Vector3 vel = rigidbody.velocity;
-		forwardSpeed = Mathf.Clamp (forwardSpeed - drag * Time.deltaTime, 0, 10);
+		forwardSpeed = Mathf.Clamp (forwardSpeed - drag * Time.deltaTime, 0, maxSpeed);
 
 		if(Input.GetKey(KeyCode.UpArrow)){
 			//gameObject.transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed);
-			forwardSpeed = Mathf.Clamp (forwardSpeed + acceleration * Time.deltaTime, 0, 10);
+			forwardSpeed = Mathf.Clamp (forwardSpeed + acceleration * Time.deltaTime, 0, maxSpeed);
 	 	}
-
-		if(Input.GetKey(KeyCode.DownArrow)){
-			//gameObject.transform.Translate(Vector3.back * Time.deltaTime * forwardSpeed);
-		}
 
 		//rigidbody.velocity = new Vector3(vel.x, vel.y, forwardSpeed);
 		gameObject.transform.Translate (Vector3.forward * Time.deltaTime * forwardSpeed);
