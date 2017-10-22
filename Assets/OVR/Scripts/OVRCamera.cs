@@ -130,7 +130,9 @@ public class OVRCamera : MonoBehaviour
 	/// </summary>
     static public RenderTexture[] CameraTexture = new RenderTexture[2];
 	#endregion
-	
+
+	private Quaternion awakeCamera;
+
 	#region Monobehaviour Member Functions
 	void Awake()
 	{
@@ -152,7 +154,8 @@ public class OVRCamera : MonoBehaviour
 #elif UNITY_EDITOR_WIN
         OVR_SetDX11EditorPlay(true);
 #endif
-    }
+		awakeCamera = OVR_GetRenderPose ().Orientation.ToQuaternion ();
+	}
 
 	void Start()
 	{
@@ -284,8 +287,14 @@ public class OVRCamera : MonoBehaviour
 		
 		// Calculate the rotation Y offset that is getting updated externally
 		// (i.e. like a controller rotation)
-		float yRotation = 0.0f;
+		
+		// CameraOrientation = Quaternion.identity;
+
+		float yRotation = 0.0f, xRotation = 0.0f, zRotation = 0.0f;
+		
 		CameraController.GetYRotation(ref yRotation);
+		// CameraController.GetXRotation(ref xRotation);
+		// CameraController.GetZRotation(ref zRotation);
 		Quaternion qp = Quaternion.Euler(0.0f, yRotation, 0.0f);
 		Vector3 dir = qp * Vector3.forward;
 		qp.SetLookRotation(dir, Vector3.up);
