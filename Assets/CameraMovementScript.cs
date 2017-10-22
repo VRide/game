@@ -11,11 +11,18 @@ public class CameraMovementScript : MonoBehaviour {
 	public float acceleration;
 	public float drag;
 	public GameObject lastCollided;
+	public GameObject gui;
+	public int totalLaps;
+	private float time;
 	
 	private float   FallSpeed 	   = 0.0f;
 	protected CharacterController 	Controller 		 = null;
 	protected OVRCameraController 	CameraController = null;
 	protected Transform DirXform = null;
+
+	public int laps { get; set; }
+	public int nextCheckpoint = 1;
+	private bool finished = false;
 
 	void OnCollisionStay(Collision collision)
 	{
@@ -29,9 +36,21 @@ public class CameraMovementScript : MonoBehaviour {
 
 	void OnTriggerEnter(Collider collider){
 		if (collider.gameObject.CompareTag ("Terrain")) {
-			Reset();
+			Reset ();
+		} else {
+			print(collider.gameObject.name);
+			int actualCheckpoint = System.Convert.ToInt32(collider.gameObject.name);
+
+			if(actualCheckpoint == nextCheckpoint && nextCheckpoint == 0){ 
+				laps++;
+				print("Lap " + laps);
+			} 
+			nextCheckpoint = (actualCheckpoint + 1)%4;
+
+			if(laps == totalLaps + 1) finished = true;
 		}
 	}
+
 	/*
 	void OnCollisionStay()
 	{
@@ -79,6 +98,8 @@ public class CameraMovementScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		InputOutput.Start ();
+		laps = 1;
+		time = 1;
 	}
 
 	void Reset() {
@@ -97,6 +118,10 @@ public class CameraMovementScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		time += (float) System.Math.Round (Time.deltaTime, 2);
+		System.TimeSpan t = System.TimeSpan.FromSeconds (time);
+		gui.GetComponent<TextMesh> ().text = finished ? "FINISH" : "" + laps + "/" + totalLaps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + forwardSpeed.ToString("0.00");
+
 		// FIXME: More elegant solution
 		InputOutput.Update ();
 		Vector3 moveDirection = Vector3.zero;
