@@ -15,7 +15,7 @@ public class ButtonRound : MenuButton {
 	
 	public override void doAction(){
 		
-		string[] hiddenButtons = new string[] {"Arrow1", "Arrow2", "Play", "Girl", "Boy", "Running", "Free"};
+		string[] hiddenButtons = new string[] {"Back1", "Back2", "Arrow1", "Arrow2", "Play", "Girl", "Boy", "Running", "Free"};
 		
 		Dictionary<string, Vector3> showButtons = new Dictionary<string, Vector3>();
 		
@@ -24,7 +24,7 @@ public class ButtonRound : MenuButton {
 		showButtons.Add("NumberTurns", dimension);
 		showButtons.Add("RoundMinor", dimension);
 		showButtons.Add("RoundPlus", dimension);
-		
+
 		disableButton(hiddenButtons);
 		enableButton(showButtons);
 
@@ -36,19 +36,18 @@ public class ButtonRound : MenuButton {
 				b = 1;	
 			}
 			ButtonRound.Num = b;
-			print ("=======");
-			print (number);
 		}
 		else if (gameObject.name == "RoundPlus"){
 			b = ButtonRound.Num + 1;
 			ButtonRound.Num = b;
-			print ("++++++++");
-			print (number);
 		}
 
 		numberTurns = number.ToString ();
 		buttonOne = GameObject.Find ("NumberTurns").GetComponentInChildren<Button> ();
 		buttonOne.GetComponentInChildren<Text>().text = numberTurns;
+
+
+		MenuButton.Options[2] = numberTurns;		
 	}
 }
 

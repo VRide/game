@@ -5,6 +5,12 @@ using System.Collections.Generic;
 
 public class MenuButton : MonoBehaviour{
 	public int timeRemaining = 3;
+	public static string[] options = new string[5];
+	
+	public static string[] Options{
+		get{ return options;}
+		set{options = value;}
+	}
 	
 	public void countDown(){
 		timeRemaining--;
