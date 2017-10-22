@@ -3,10 +3,15 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class ButtonRoundPlus : MenuButton {
+public class ButtonRound : MenuButton {
 	public Button buttonOne;
-	public int number = 1;
+	public static int number = 1;
 	public string numberTurns = "1";
+
+	public static int Num{
+		get{ return number;}
+		set{number = value;}
+	}
 	
 	public override void doAction(){
 		
@@ -22,10 +27,28 @@ public class ButtonRoundPlus : MenuButton {
 		
 		disableButton(hiddenButtons);
 		enableButton(showButtons);
-		
-		number += 1;
+
+		int b;
+
+		if(gameObject.name == "RoundMinor"){
+			b = ButtonRound.Num - 1;
+			if (b <= 0){
+				b = 1;	
+			}
+			ButtonRound.Num = b;
+			print ("=======");
+			print (number);
+		}
+		else if (gameObject.name == "RoundPlus"){
+			b = ButtonRound.Num + 1;
+			ButtonRound.Num = b;
+			print ("++++++++");
+			print (number);
+		}
+
 		numberTurns = number.ToString ();
 		buttonOne = GameObject.Find ("NumberTurns").GetComponentInChildren<Button> ();
 		buttonOne.GetComponentInChildren<Text>().text = numberTurns;
 	}
 }
+
