@@ -6,7 +6,7 @@ public class FreeMode : MenuButton {
 	
 	public override void doAction(){
 
-		string[] hiddenButtons = new string[] {"Back1", "Back2", "Arrow2", "Play", "Arrow1", "Running", "Free", "Boy", "Girl"};
+		string[] hiddenButtons = new string[] {"Back1", "Back2", "Play", "Running", "Free", "Boy", "Girl"};
 		
 		Dictionary<string, Vector3> showButtons = new Dictionary<string, Vector3>();
 		

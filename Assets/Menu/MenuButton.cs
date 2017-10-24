@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class MenuButton : MonoBehaviour{
 	public int timeRemaining = 3;
 	public static string[] options = new string[5];
+	public Button button;
+	public string time = "";
 	
 	public static string[] Options{
 		get{ return options;}
@@ -13,6 +15,10 @@ public class MenuButton : MonoBehaviour{
 	}
 	
 	public void countDown(){
+		GameObject.Find("Time").GetComponent<Button>().enabled = true;
+		time = timeRemaining.ToString ();
+		button = GameObject.Find ("Time").GetComponentInChildren<Button> ();
+		button.GetComponentInChildren<Text>().text = time;
 		timeRemaining--;
 		print(timeRemaining);
 		if(timeRemaining <= 0){

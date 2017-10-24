@@ -15,7 +15,7 @@ public class ButtonRound : MenuButton {
 	
 	public override void doAction(){
 		
-		string[] hiddenButtons = new string[] {"Back1", "Back2", "Arrow1", "Arrow2", "Play", "Girl", "Boy", "Running", "Free"};
+		string[] hiddenButtons = new string[] {"Back1", "Back2", "Play", "Girl", "Boy", "Running", "Free"};
 		
 		Dictionary<string, Vector3> showButtons = new Dictionary<string, Vector3>();
 		
