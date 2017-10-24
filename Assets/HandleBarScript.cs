@@ -18,10 +18,5 @@ public class HandleBarScript : MonoBehaviour {
 		Vector3 q = gameObject.transform.localRotation.eulerAngles;
 
 		gameObject.transform.localRotation = Quaternion.Euler (q.x, q.y, InputOutput.GetGuidonRotation());
-
-
-
-
-		// gameObject.transform.rotation = Quaternion.Euler (q.x, q.y, originalZ - InputOutput.GetGuidonRotation ());
 	}
 }

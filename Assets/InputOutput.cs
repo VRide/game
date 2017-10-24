@@ -16,6 +16,7 @@ public class InputOutput {
 	public static float acceleration = 8f;
 	private static bool is_pressing = false;
 	public static float maxSpeed = 30f;
+	private static bool locked = false;
 
 	private static GameObject bike;
 	private static MqttClient client;
@@ -26,7 +27,7 @@ public class InputOutput {
 		velocity = 0f;
 
 		client = new MqttClient(IPAddress.Parse("127.0.0.1"), 1883 , false , null ); 
-		client.Connect("rasengan");
+		client.Connect("vride-7qx45t");
 		
 		client.MqttMsgPublishReceived += client_MqttMsgPublishReceived; 
 
@@ -34,9 +35,16 @@ public class InputOutput {
 		client.Subscribe(new string[] { "bike/velocity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 	}
 
+	public static void Reset(){
+		velocity = 0f;
+		guidonRotation = 0f;
+	}
+
 	static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e){ 
-		string m = System.Text.Encoding.UTF8.GetString(e.Message);
-		
+		if(locked) return;
+
+		string m = System.Text.Encoding.UTF8.GetString(e.Message);	
+
 		Debug.Log ("Received " + m + " on " + e.Topic);
 		if (e.Topic == "bike/velocity") {
 			string message = System.Text.Encoding.UTF8.GetString(e.Message);
@@ -74,10 +82,12 @@ public class InputOutput {
 
 
 
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
-			client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("FORWARD"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-		} else if (Input.GetKeyUp (KeyCode.UpArrow)) {
-			client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("STOP"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+		if (Input.GetKey (KeyCode.UpArrow)) {
+			if(!is_pressing)
+				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("FORWARD"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+		} else {
+			if(is_pressing)
+				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("STOP"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			
 		}
 	
@@ -85,6 +95,15 @@ public class InputOutput {
 		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
 	}
 
+	public static void Lock(){
+		is_pressing = false;
+		locked = true;
+	}
+
+	public static void Unlock(){
+		locked = false;
+	}
+	
 	public static float GetGuidonRotation() {
 		return guidonRotation;
 	}

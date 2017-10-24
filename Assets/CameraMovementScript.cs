@@ -11,6 +11,7 @@ public class CameraMovementScript : MonoBehaviour {
 	public GameObject gui;
 	public int totalLaps;
 	private float time;
+	private float startTime;
 	
 	private float   FallSpeed 	   = 0.0f;
 	protected CharacterController 	Controller 		 = null;
@@ -95,6 +96,8 @@ public class CameraMovementScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		InputOutput.Start ();
+		InputOutput.Lock();
+		startTime = 2.99f;
 		laps = 1;
 		time = 1;
 	}
@@ -110,21 +113,41 @@ public class CameraMovementScript : MonoBehaviour {
 		gameObject.transform.rotation = Quaternion.Euler(orientation + new Vector3(0, 270, 0));
 		gameObject.transform.FindChild ("MountainBike_01").transform.localRotation = Quaternion.Euler(new Vector3(270, 270, 0));
 
-		forwardSpeed = 0f;
+		InputOutput.Reset();
 	}
 
 	// Update is called once per frame
 	void Update () {
-		time += (float) System.Math.Round (Time.deltaTime, 2);
-		System.TimeSpan t = System.TimeSpan.FromSeconds (time);
-		gui.GetComponent<TextMesh> ().text = finished ? "FINISH" : "" + laps + "/" + totalLaps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00");
+		if (startTime >= 0) {
+			startTime -= (float) System.Math.Round (Time.deltaTime, 2);
+			 
+			if(startTime.ToString("0") == "0"){
+				gui.GetComponent<TextMesh> ().text = "GO!";
+			}else{
+				gui.GetComponent<TextMesh> ().text = startTime.ToString ("0");
+			}
+		} else {
+			// FIXME: change to destroying object
+
+			if(!finished){
+				time += (float) System.Math.Round (Time.deltaTime, 2);
+				InputOutput.Unlock();
+			}
+
+			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
+			gui.GetComponent<TextMesh> ().text = "" + laps + "/" + totalLaps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00");
+		}
+
+		if (finished) {
+			// FIXME: change to creating object
+			InputOutput.Lock();
+			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
+			gui.GetComponent<TextMesh> ().text = "FINISH!\nTotal time:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f");	
+		}
 
 		// FIXME: More elegant solution
 		InputOutput.Update ();
 		Vector3 moveDirection = Vector3.zero;
-
-		float diff = (lastCollided.GetComponent<Collider> ().bounds.size.y /2.7f);
-
 
 		gameObject.transform.Translate (Vector3.forward * Time.deltaTime * InputOutput.velocity);
 
@@ -136,13 +159,5 @@ public class CameraMovementScript : MonoBehaviour {
 		if(angle >= 45f && angle <= 315f){
 			Reset();
 		}
-		return;
-		if (Controller.isGrounded && FallSpeed <= 0)
-			FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));	
-		else
-			FallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * OVRDevice.SimulationRate * Time.deltaTime);	
-		
-		moveDirection.y += FallSpeed * OVRDevice.SimulationRate * Time.deltaTime;
-		Controller.Move(moveDirection);
 	}
 }
