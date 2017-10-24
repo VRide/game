@@ -6,10 +6,7 @@ public class CameraMovementScript : MonoBehaviour {
 	public float speed;
 	public float forwardSpeed = 0f;
 	public float GravityModifier   = 0.379f;
-	public float maxSpeed;
 	public Transform ovr;
-	public float acceleration;
-	public float drag;
 	public GameObject lastCollided;
 	public GameObject gui;
 	public int totalLaps;
@@ -128,18 +125,10 @@ public class CameraMovementScript : MonoBehaviour {
 
 		float diff = (lastCollided.GetComponent<Collider> ().bounds.size.y /2.7f);
 
-		Vector3 vel = rigidbody.velocity;
-		forwardSpeed = Mathf.Clamp (forwardSpeed - drag * Time.deltaTime, 0, maxSpeed);
 
-		if(Input.GetKey(KeyCode.UpArrow)){
-			//gameObject.transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed);
-			forwardSpeed = Mathf.Clamp (forwardSpeed + acceleration * Time.deltaTime, 0, maxSpeed);
-	 	}
+		gameObject.transform.Translate (Vector3.forward * Time.deltaTime * InputOutput.velocity);
 
-		//rigidbody.velocity = new Vector3(vel.x, vel.y, forwardSpeed);
-		gameObject.transform.Translate (Vector3.forward * Time.deltaTime * forwardSpeed);
-
-		if(forwardSpeed != 0f){
+		if(InputOutput.velocity != 0f){
 			gameObject.transform.Rotate(new Vector3(0, InputOutput.GetGuidonRotation() * Time.deltaTime, 0));
 		}
 
