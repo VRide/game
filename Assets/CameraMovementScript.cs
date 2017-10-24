@@ -117,7 +117,7 @@ public class CameraMovementScript : MonoBehaviour {
 	void Update () {
 		time += (float) System.Math.Round (Time.deltaTime, 2);
 		System.TimeSpan t = System.TimeSpan.FromSeconds (time);
-		gui.GetComponent<TextMesh> ().text = finished ? "FINISH" : "" + laps + "/" + totalLaps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + forwardSpeed.ToString("0.00");
+		gui.GetComponent<TextMesh> ().text = finished ? "FINISH" : "" + laps + "/" + totalLaps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00");
 
 		// FIXME: More elegant solution
 		InputOutput.Update ();
