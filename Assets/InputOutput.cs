@@ -21,10 +21,13 @@ public class InputOutput {
 	private static GameObject bike;
 	private static MqttClient client;
 
+	private static float timer;
+
 	// Use this for initialization
 	public static void Start () {
 		bike = GameObject.FindGameObjectWithTag("Player");
 		velocity = 0f;
+		timer = 0f;
 
 		client = new MqttClient(IPAddress.Parse("127.0.0.1"), 1883 , false , null ); 
 		client.Connect("vride-7qx45t");
@@ -64,35 +67,40 @@ public class InputOutput {
 	public static void Update () {
 		bikeXAxis = bike.transform.rotation.x;
 
+		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
+		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
+
+		/*timer += Time.deltaTime;
+		if (timer >= 0.010f) {
+			timer = 0;
+		} else {
+			return;
+		}*/
+
+
+
 		if(Input.GetKey(KeyCode.LeftArrow)){
 			// guidonRotation = -45f;
-			if(guidonRotation != -45f)
 				client.Publish("bike/angle", System.BitConverter.GetBytes(-45f) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			// gameObject.transform.Rotate(new Vector3(0, -speed * Time.deltaTime, 0));
 		}else if(Input.GetKey(KeyCode.RightArrow)){
 			// guidonRotation = 45f;
-			if(guidonRotation != 45f)
 				client.Publish("bike/angle", System.BitConverter.GetBytes(45f) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			// gameObject.transform.Rotate(new Vector3(0, speed * Time.deltaTime, 0));
 		}else{
-			if(guidonRotation != 0f)
 				client.Publish("bike/angle", System.BitConverter.GetBytes(0f) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			
 		}
 
 
-
 		if (Input.GetKey (KeyCode.UpArrow)) {
-			if(!is_pressing)
 				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("FORWARD"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		} else {
-			if(is_pressing)
 				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("STOP"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			
 		}
 	
-		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
-		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
+
 	}
 
 	public static void Lock(){
