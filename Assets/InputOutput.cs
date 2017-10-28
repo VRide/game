@@ -46,14 +46,14 @@ public class InputOutput {
 	static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e){ 
 		if(locked) return;
 
-		string m = System.Text.Encoding.UTF8.GetString(e.Message);	
+		//string m = System.Text.Encoding.UTF8.GetString(e.Message);	
 
-		Debug.Log ("Received " + m + " on " + e.Topic);
+		//Debug.Log ("Received " + m + " on " + e.Topic);
 		if (e.Topic == "bike/velocity") {
 			string message = System.Text.Encoding.UTF8.GetString(e.Message);
-			if(message == "FORWARD"){
+			if(message == "F"){
 				is_pressing = true;
-			}else if(message == "STOP"){
+			}else if(message == "S"){
 				is_pressing = false;
 			}
 			//gameObject.transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed);
@@ -70,12 +70,12 @@ public class InputOutput {
 		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
 		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
 
-		/*timer += Time.deltaTime;
-		if (timer >= 0.010f) {
+		timer += Time.deltaTime;
+		if (timer >= 0.050f) {
 			timer = 0;
 		} else {
 			return;
-		}*/
+		}
 
 
 
@@ -94,9 +94,9 @@ public class InputOutput {
 
 
 		if (Input.GetKey (KeyCode.UpArrow)) {
-				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("FORWARD"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("F"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		} else {
-				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("STOP"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("S"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			
 		}
 	
