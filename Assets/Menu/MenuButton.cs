@@ -30,10 +30,12 @@ public class MenuButton : MonoBehaviour{
 		screens.Add (screen0);
 		List<string> screen1 = new List<string>(new string[] { "Girl", "Boy", "Back1" });
 		screens.Add (screen1);
-		List<string> screen2 = new List<string>(new string[] { "Running", "Free", "Back2" });
+		List<string> screen2 = new List<string>(new string[] {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine" });
 		screens.Add (screen2);
-		List<string> screen3 = new List<string>(new string[] { "NumberTurns", "RoundMinor", "RoundPlus", "Submit", "Back3" });
-		screens.Add (screen3);	
+		List<string> screen3 = new List<string>(new string[] { "Running", "Free", "Back2" });
+		screens.Add (screen3);
+		List<string> screen4 = new List<string>(new string[] { "NumberTurns", "RoundMinor", "RoundPlus", "Submit", "Back3" });
+		screens.Add (screen4);	
 	}
 
 	public static string[] Options{
@@ -90,8 +92,8 @@ public class MenuButton : MonoBehaviour{
 		else if (gameObject.name == "RoundPlus"){
 			b = number + 1;
 			number = b;
-		}
-		
+		} 
+
 		numberTurns = number.ToString ();
 		buttonOne = GameObject.Find ("NumberTurns").GetComponentInChildren<Button> ();
 		buttonOne.GetComponentInChildren<Text>().text = numberTurns;

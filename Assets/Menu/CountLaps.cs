@@ -9,7 +9,7 @@ public class CountLaps : MonoBehaviour {
 
 	void Start(){
 		timeRemaining = timeOver;
-		PlayerInfo.laps = 1;
+		PlayerInfo.laps = 3;
 	}
 
 	public void countDown(){
@@ -34,14 +34,11 @@ public class CountLaps : MonoBehaviour {
 		if(gameObject.name == "RoundMinor"){
 			if (PlayerInfo.laps > 1){
 				PlayerInfo.laps--;	
-				print("--");
 			}
 		}
 		else if (gameObject.name == "RoundPlus"){
 			PlayerInfo.laps++;
 		}
-
-		print (PlayerInfo.laps);
 
 		Button buttonOne; 
 		buttonOne = GameObject.Find ("NumberTurns").GetComponentInChildren<Button> ();
