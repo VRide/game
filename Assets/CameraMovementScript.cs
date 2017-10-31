@@ -12,6 +12,7 @@ public class CameraMovementScript : MonoBehaviour {
 	public int totalLaps;
 	private float time;
 	private float startTime;
+	private AudioSource audio, hitAudio;
 	
 	private float   FallSpeed 	   = 0.0f;
 	protected CharacterController 	Controller 		 = null;
@@ -30,6 +31,11 @@ public class CameraMovementScript : MonoBehaviour {
 		if (collision.gameObject.CompareTag ("Respawn") && collision.contacts.Length >= 4) {
 			lastCollided = collision.gameObject;
 		}
+	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+		if(collision.gameObject.CompareTag("hittable")) hitAudio.Play ();
 	}
 
 	void OnTriggerEnter(Collider collider){
@@ -92,6 +98,9 @@ public class CameraMovementScript : MonoBehaviour {
 	void Start () {
 		InputOutput.Start ();
 		InputOutput.Lock();
+		audio = gameObject.GetComponents<AudioSource> ()[0];
+		hitAudio = gameObject.GetComponents<AudioSource> ()[1];
+		audio.Play ();
 		startTime = 2.99f;
 		laps = 1;
 		time = 1;
@@ -113,6 +122,8 @@ public class CameraMovementScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		float pitch = InputOutput.velocity / 15f;
+		audio.pitch = pitch;
 		if (startTime >= 0) {
 			startTime -= (float) System.Math.Round (Time.deltaTime, 2);
 			 

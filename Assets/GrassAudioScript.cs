@@ -15,6 +15,12 @@ public class GrassAudioScript : MonoBehaviour {
 
 	}
 
+	void OnTriggerStay(Collider collider){
+		Debug.Log("Exit");
+		float pitch = InputOutput.velocity / 15f;
+		audio.pitch = pitch;
+	}
+
 	void OnTriggerExit(Collider collider){
 		Debug.Log("Exit");
 		audio.Pause();
