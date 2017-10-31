@@ -35,8 +35,8 @@ public class CameraMovementScript : MonoBehaviour {
 	void OnTriggerEnter(Collider collider){
 		if (collider.gameObject.CompareTag ("Terrain")) {
 			Reset ();
-		} else {
-			print(collider.gameObject.name);
+		} else if(collider.gameObject.CompareTag("Lap")){
+			print(collider.gameObject.name + " " + collider.gameObject.tag);
 			int actualCheckpoint = System.Convert.ToInt32(collider.gameObject.name);
 
 			if(actualCheckpoint == nextCheckpoint && nextCheckpoint == 0){ 
@@ -48,12 +48,7 @@ public class CameraMovementScript : MonoBehaviour {
 			if(laps == totalLaps + 1) finished = true;
 		}
 	}
-
-	/*
-	void OnCollisionStay()
-	{
-	}
-	*/
+	
 	void Awake()
 	{		
 		// We use Controller to move player around
