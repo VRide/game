@@ -77,8 +77,6 @@ public class InputOutput {
 			return;
 		}
 
-
-
 		if(Input.GetKey(KeyCode.LeftArrow)){
 			// guidonRotation = -45f;
 				client.Publish("bike/angle", System.BitConverter.GetBytes(-45f) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);

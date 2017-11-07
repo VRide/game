@@ -3,12 +3,14 @@ using System.Collections;
 
 public class CheeringScript : MonoBehaviour {
 
+	private AudioSource audio;
 	float totalTime, time;
 	Animation animation;
 
 	// Use this for initialization
 	void Start () {
 		time = 0;
+		audio = gameObject.GetComponent<AudioSource> ();
 		totalTime = Random.Range (0, 3);
 		animation = gameObject.GetComponent<Animation> ();
 	}
@@ -19,6 +21,9 @@ public class CheeringScript : MonoBehaviour {
 			time += Time.deltaTime;
 			if(time >= totalTime){
 				animation.Play();
+				if(audio != null){
+					audio.Play();
+				}
 			}
 		}
 	}
