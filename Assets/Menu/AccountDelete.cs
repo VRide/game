@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
-using iBoxDB.LocalServer;
+using UnityEngine.UI;
 
-
-public class MenuController : MonoBehaviour {
-
-	public GameObject nextPanel;
+public class AccountDelete : MonoBehaviour {
+	
 	public int timeOver = 3;
-
-
+	public GameObject nextPanelYes;
+	public GameObject nextPanelNo;
+	
 	private int timeRemaining;
-
-	void Start(){
+	
+	void Start () {
 		timeRemaining = timeOver;
 	}
 
@@ -24,7 +23,7 @@ public class MenuController : MonoBehaviour {
 			CancelInvoke("countDown");
 		}
 	}
-
+	
 	public void MouseOver(){
 		InvokeRepeating("countDown", 1,1);
 	}
@@ -33,10 +32,16 @@ public class MenuController : MonoBehaviour {
 		CancelInvoke("countDown");
 		timeRemaining = timeOver;
 	}
-
+	
 	private void invokeNextPanel(){
 		gameObject.transform.parent.gameObject.SetActive (false);
-		nextPanel.SetActive (true);
+		if (gameObject.name == "No") {
+			nextPanelNo.SetActive (true);
+		} else if(gameObject.name == "Yes") {
+			print (PlayerInfo.currentPlayer.id);
+			PlayerDAO.deletePlayer(PlayerInfo.currentPlayer.id);
+			//nextPanelYes.SetActive (true);
+			Application.LoadLevel("Menu");
+		}
 	}
-
 }

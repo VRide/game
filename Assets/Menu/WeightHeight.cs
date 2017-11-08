@@ -13,7 +13,6 @@ public class WeightHeight : MonoBehaviour {
 	Button buttonOne;
 
 	void Start(){
-		//print ("entrou");
 		timeRemaining = timeOver;
 	}
 
@@ -45,8 +44,15 @@ public class WeightHeight : MonoBehaviour {
 		else if (gameObject.name == "Ok"){
 			int number;
 			if(int.TryParse(label, out number)){
-				print (number);
-			}
+				if(gameObject.transform.parent.gameObject.name == "PlayerWeight"){
+					PlayerInfo.currentPlayer.weight = number;
+					PlayerDAO.createPlayer(PlayerInfo.currentPlayer);
+				}
+				else 
+					PlayerInfo.currentPlayer.height = number;
+			}else
+				PlayerInfo.currentPlayer.name = label;
+		
 			label = "";
 			measure = "";
 			buttonOne = GameObject.Find ("Info").GetComponentInChildren<Button> ();
@@ -65,7 +71,6 @@ public class WeightHeight : MonoBehaviour {
 	private void invokeNextPanel(){
 		gameObject.transform.parent.gameObject.SetActive (false);
 		nextPanel.SetActive (true);
-
 	}
 	
 }

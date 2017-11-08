@@ -21,6 +21,10 @@ public class PlayerDAO {
 		return DatabaseSingleton.Instance.db.Delete("Player", Convert.ToInt64(id)); 
 	}
 
+	public static bool deletePlayer(long id){
+		return DatabaseSingleton.Instance.db.Delete("Player", id); 
+	}
+
 }
 
 
