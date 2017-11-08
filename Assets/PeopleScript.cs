@@ -11,6 +11,9 @@ public class PeopleScript : MonoBehaviour {
 		man = GameObject.Find ("man");
 		woman = GameObject.Find ("woman");
 
+		man.SetActive (false);
+		return;
+
 		if (PlayerInfo.currentPlayer.gender == (int)Player.Gender.Boy) {
 			woman.SetActive(false);
 		} else if (PlayerInfo.currentPlayer.gender == (int)Player.Gender.Girl) {
