@@ -41,7 +41,7 @@ public class AccountDelete : MonoBehaviour {
 			print (PlayerInfo.currentPlayer.id);
 			PlayerDAO.deletePlayer(PlayerInfo.currentPlayer.id);
 			//nextPanelYes.SetActive (true);
-			Application.LoadLevel("Menu");
+			Application.LoadLevelAsync("Menu");
 		}
 	}
 }

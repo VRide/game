@@ -31,18 +31,22 @@ public class CountLaps : MonoBehaviour {
 	}
 
 	private void countLaps(){
-		if(gameObject.name == "RoundMinor"){
-			if (PlayerInfo.laps > 1){
-				PlayerInfo.laps--;	
-			}
-		}
-		else if (gameObject.name == "RoundPlus"){
-			PlayerInfo.laps++;
+		if (gameObject.name == "RoundMinor") {
+				if (PlayerInfo.laps > 1) {
+						PlayerInfo.laps--;	
+				}
+		} else if (gameObject.name == "RoundPlus")
+				PlayerInfo.laps++;
+		else if (gameObject.name == "Submit"){
+			print ("ENTROUUUUU");
+			Application.LoadLevel ("main");
 		}
 
 		Button buttonOne; 
 		buttonOne = GameObject.Find ("NumberTurns").GetComponentInChildren<Button> ();
 		buttonOne.GetComponentInChildren<Text>().text = PlayerInfo.laps.ToString();
+
+
 	}
 
 }

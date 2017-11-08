@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using iBoxDB.LocalServer;
-
+using System;
 
 public class MenuController : MonoBehaviour {
 
@@ -35,7 +35,20 @@ public class MenuController : MonoBehaviour {
 	}
 
 	private void invokeNextPanel(){
-		gameObject.transform.parent.gameObject.SetActive (false);
+		GameObject parentPanel = gameObject.transform.parent.gameObject;
+
+		if (parentPanel.name == "ChooseMode")
+			PlayerInfo.mode = (int)Enum.Parse(typeof(PlayerInfo.Modes), gameObject.name);
+		else if (parentPanel.name == "ChooseTurn")
+			PlayerInfo.turn = (int)Enum.Parse(typeof(PlayerInfo.Turns), gameObject.name);
+
+		if(parentPanel.name == "ChooseTurn" && PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
+		{	
+			//carregarModoLivre 
+			print("colocar Modo Livre");
+		}
+
+		parentPanel.SetActive (false);
 		nextPanel.SetActive (true);
 	}
 

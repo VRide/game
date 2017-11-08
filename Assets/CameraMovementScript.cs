@@ -104,6 +104,7 @@ public class CameraMovementScript : MonoBehaviour {
 		startTime = 2.99f;
 		laps = 1;
 		time = 1;
+		totalLaps = PlayerInfo.laps;
 	}
 
 	void Reset() {

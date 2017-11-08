@@ -23,19 +23,9 @@ public class SkyScript : MonoBehaviour {
 		streetLights = streetlightGroup.GetComponentsInChildren<Light>();
 		directionalLight = GameObject.FindGameObjectWithTag("directionalLight");
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKey (KeyCode.D)) {
+		if (PlayerInfo.turn == (int)PlayerInfo.Turns.Day) {
 			Day ();
-		}
-		if (Input.GetKey (KeyCode.N)) {
-			Debug.Log("Noite");
-			Debug.Log(stars);
-			Debug.Log(moon);
-			Debug.Log(streetLights);
-
+		} else if (PlayerInfo.turn == (int)PlayerInfo.Turns.Night) {
 			Night ();
 		}
 	}

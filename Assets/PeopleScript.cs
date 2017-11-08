@@ -10,15 +10,12 @@ public class PeopleScript : MonoBehaviour {
 	void Start () {
 		man = GameObject.Find ("man");
 		woman = GameObject.Find ("woman");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKey (KeyCode.H)) {
+
+		if (PlayerInfo.currentPlayer.gender == (int)Player.Gender.Boy) {
 			woman.SetActive(false);
-		}
-		if (Input.GetKey (KeyCode.M)) {
+		} else if (PlayerInfo.currentPlayer.gender == (int)Player.Gender.Girl) {
 			man.SetActive(false);
 		}
 	}
+
 }
