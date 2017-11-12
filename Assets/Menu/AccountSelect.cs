@@ -19,9 +19,10 @@ public class AccountSelect : MonoBehaviour {
 	void Start() {
 		timeRemaining = timeOver;
 		currentButton = gameObject.GetComponent<Button> ();
-		print (currentButton.name);
 		player = PlayerDAO.getPlayer(Int32.Parse(gameObject.name));
+
 		if(player != null) {
+			player.gender = 0;
 			currentButton.image.color = (player.gender == (int)Player.Gender.Boy? blue: pink);
 			Text buttonText = currentButton.GetComponentInChildren<Text> ();
 			buttonText.text = player.name;

@@ -4,13 +4,15 @@ using UnityEngine.UI;
 using System;
 
 public class WeightHeight : MonoBehaviour {
-	
+
+	public GameObject nextPanel;
+
+	private static int maxLengthName = 10;
 	private static int timeOver = 1;
 	private int timeRemaining;
-	private static string label;
+	private static string label = "";
 	private static string measure;
-	public GameObject nextPanel;
-	Button buttonOne;
+	private Button buttonOne;
 
 	void Start(){
 		timeRemaining = timeOver;
@@ -55,11 +57,9 @@ public class WeightHeight : MonoBehaviour {
 		
 			label = "";
 			measure = "";
-			buttonOne = GameObject.Find ("Info").GetComponentInChildren<Button> ();
-			buttonOne.GetComponentInChildren<Text> ().text = label + measure;
 			CancelInvoke("countDown");
 			invokeNextPanel();
-		}else
+		}else if(label.Length < maxLengthName)
 			label += gameObject.name;
 
 		buttonOne = GameObject.Find ("Info").GetComponentInChildren<Button> ();
