@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class AccountDelete : MonoBehaviour {
 	
@@ -38,10 +39,14 @@ public class AccountDelete : MonoBehaviour {
 		if (gameObject.name == "No") {
 			nextPanelNo.SetActive (true);
 		} else if(gameObject.name == "Yes") {
-			print (PlayerInfo.currentPlayer.id);
-			PlayerDAO.deletePlayer(PlayerInfo.currentPlayer.id);
-			//nextPanelYes.SetActive (true);
-			Application.LoadLevelAsync("Menu");
+			if (PlayerDAO.deletePlayer(PlayerInfo.currentPlayer.id))
+			{
+				Button button = nextPanelYes.transform.Find(Convert.ToString(PlayerInfo.currentPlayer.id)).GetComponent<Button>();
+				button.GetComponent<AccountSelect>().player = null;
+				AccountSelect.removeButtonLayout(button, PlayerInfo.currentPlayer.id);
+			}
+			nextPanelYes.SetActive (true);
+			//Application.LoadLevelAsync("Menu");
 		}
 	}
 }

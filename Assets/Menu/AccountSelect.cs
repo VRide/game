@@ -12,9 +12,10 @@ public class AccountSelect : MonoBehaviour {
 	private int timeRemaining;
 	private static Color pink = new Color (0.925f, 0.251f, 0.478f);
 	private static Color blue = new Color (0.008f, 0.467f, 0.741f);
-	private static Color write = new Color (1.0f, 1.0f, 1.01f);
+	private static Color write = new Color (1.0f, 1.0f, 1.0f);
+	private static Color black = new Color (0.0f, 0.0f, 0.0f);
 	private Button currentButton;
-	private Player player;
+	public Player player { get; set;}
 
 	void Start() {
 		timeRemaining = timeOver;
@@ -22,11 +23,7 @@ public class AccountSelect : MonoBehaviour {
 		player = PlayerDAO.getPlayer(Int32.Parse(gameObject.name));
 
 		if(player != null) {
-			player.gender = 0;
-			currentButton.image.color = (player.gender == (int)Player.Gender.Boy? blue: pink);
-			Text buttonText = currentButton.GetComponentInChildren<Text> ();
-			buttonText.text = player.name;
-			buttonText.color = write;
+			setButtonLayout (currentButton, player);
 		}
 	}
 
@@ -58,5 +55,19 @@ public class AccountSelect : MonoBehaviour {
 			PlayerInfo.currentPlayer = player;
 			nextPanel.SetActive (true);
 		}
+	}
+
+	public static void setButtonLayout (Button button, Player playerButton){
+		button.image.color = (playerButton.gender == (int)Player.Gender.Boy ? blue : pink);
+		Text buttonText = button.transform.Find("Text").GetComponentInChildren<Text>();
+		buttonText.text = playerButton.name;
+		buttonText.color = write;
+	}
+
+	public static void removeButtonLayout (Button button, long id){
+		button.image.color = write;
+		Text buttonText = button.transform.Find("Text").GetComponentInChildren<Text>();
+		buttonText.text = Convert.ToString(id);
+		buttonText.color = black;
 	}
 }

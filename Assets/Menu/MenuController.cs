@@ -35,12 +35,14 @@ public class MenuController : MonoBehaviour {
 	}
 
 	private void invokeNextPanel(){
-		GameObject parentPanel = gameObject.transform.parent.gameObject;
 
-		if (parentPanel.name == "ChooseMode")
+		GameObject parentPanel = gameObject.transform.parent.gameObject;
+		if (parentPanel.name == "ChooseMode" && (gameObject.name == "Free" || gameObject.name == "Running"))
 			PlayerInfo.mode = (int)Enum.Parse(typeof(PlayerInfo.Modes), gameObject.name);
 		else if (parentPanel.name == "ChooseTurn")
 			PlayerInfo.turn = (int)Enum.Parse(typeof(PlayerInfo.Turns), gameObject.name);
+		else if (parentPanel.name == "ChooseGender")
+			PlayerInfo.currentPlayer.gender = (int)Enum.Parse(typeof(Player.Gender), gameObject.name);
 
 		if(parentPanel.name == "ChooseTurn" && PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
 		{	

@@ -6,6 +6,7 @@ using System;
 public class WeightHeight : MonoBehaviour {
 
 	public GameObject nextPanel;
+	public GameObject accountPanel;
 
 	private static int maxLengthName = 10;
 	private static int timeOver = 1;
@@ -13,15 +14,17 @@ public class WeightHeight : MonoBehaviour {
 	private static string label = "";
 	private static string measure;
 	private Button buttonOne;
+	private string panelParentName;
 
 	void Start(){
 		timeRemaining = timeOver;
+		panelParentName = gameObject.transform.parent.name;
 	}
 
 	public void countDown(){
 		timeRemaining--;
 		
-		if(timeRemaining <= 0){
+		if(timeRemaining <= 0 && label.Length > 0){
 			timeRemaining = timeOver;
 			defineLabel();
 		}
@@ -48,7 +51,7 @@ public class WeightHeight : MonoBehaviour {
 			if(int.TryParse(label, out number)){
 				if(gameObject.transform.parent.gameObject.name == "PlayerWeight"){
 					PlayerInfo.currentPlayer.weight = number;
-					PlayerDAO.createPlayer(PlayerInfo.currentPlayer);
+					updatePanel ();
 				}
 				else 
 					PlayerInfo.currentPlayer.height = number;
@@ -57,15 +60,27 @@ public class WeightHeight : MonoBehaviour {
 		
 			label = "";
 			measure = "";
-			CancelInvoke("countDown");
 			invokeNextPanel();
-		}else if(label.Length < maxLengthName)
+			CancelInvoke("countDown");
+		}
+		else if(label.Length < maxLengthName)
 			label += gameObject.name;
 
-		buttonOne = GameObject.Find ("Info").GetComponentInChildren<Button> ();
-		if (gameObject.transform.parent.name == "PlayerHeight") measure = " cm";
-		else if (gameObject.transform.parent.name == "PlayerWeight") measure = " kg";
-		buttonOne.GetComponentInChildren<Text> ().text = label + measure;
+		if(GameObject.Find ("Info" + panelParentName) != null) {
+			buttonOne = GameObject.Find ("Info" + panelParentName).GetComponentInChildren<Button> ();
+			if (panelParentName == "PlayerHeight") measure = " cm";
+			else if (panelParentName == "PlayerWeight") measure = " kg";
+			buttonOne.GetComponentInChildren<Text> ().text = label + measure;
+     	}
+	}
+
+	private void updatePanel ()
+	{
+		if (PlayerDAO.createPlayer (PlayerInfo.currentPlayer)) {
+			Button button = accountPanel.transform.Find (Convert.ToString (PlayerInfo.currentPlayer.id)).GetComponent<Button> ();
+			button.GetComponent<AccountSelect> ().player = PlayerInfo.currentPlayer;
+			AccountSelect.setButtonLayout (button, PlayerInfo.currentPlayer);
+		}
 	}
 
 	private void invokeNextPanel(){
