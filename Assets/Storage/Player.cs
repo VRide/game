@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 public class Player {
 
@@ -9,6 +10,7 @@ public class Player {
 	public int height;
 	public int weight;
 	public int gender;
+	public List<Velocity> velocities;
 
 	public Player(){}
 

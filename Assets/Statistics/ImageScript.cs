@@ -11,14 +11,17 @@ public class ImageScript : MonoBehaviour {
 	{
 		Pen blackPen = new Pen(System.Drawing.Color.Black, 8);
 		
-		int x1 = 100;
-		int y1 = 100;
+		int x1 = 0;
+		int y1 = 1000;
 		int x2 = 500;
-		int y2 = 100;
+		int y2 = 400;
 		// Draw line to screen.
 		using(var graphics = System.Drawing.Graphics.FromImage(bmp))
 		{
-			graphics.DrawLine(blackPen, x1, y1, x2, y2);
+			graphics.DrawLine(blackPen, 0, 1000, 500, 550);
+			graphics.DrawLine(blackPen, 500, 550, 1000, 580);
+			graphics.DrawLine(blackPen, 1000, 580, 1500, 680);
+			graphics.DrawLine(blackPen, 1500, 680, 2000, 650);
 		}
 	}
 	

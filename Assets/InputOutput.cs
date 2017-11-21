@@ -5,7 +5,7 @@ using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using uPLibrary.Networking.M2Mqtt.Utility;
 using uPLibrary.Networking.M2Mqtt.Exceptions;
-
+using System;
 
 public class InputOutput {
 
@@ -20,6 +20,8 @@ public class InputOutput {
 
 	private static GameObject bike;
 	private static MqttClient client;
+	private int[] velocities = new int[40];
+	private long quantityVelocity;
 
 	private static float timer;
 
@@ -28,6 +30,8 @@ public class InputOutput {
 		bike = GameObject.FindGameObjectWithTag("Player");
 		velocity = 0f;
 		timer = 0f;
+		quantityVelocity = 0;
+		Array.Clear(velocities, 0, 40);
 
 		client = new MqttClient(IPAddress.Parse("127.0.0.1"), 1883 , false , null ); 
 		client.Connect("vride-7qx45t");
@@ -51,6 +55,7 @@ public class InputOutput {
 
 		//Debug.Log ("Received " + m + " on " + e.Topic);
 		if (e.Topic == "bike/velocity") {
+
 			string message = System.Text.Encoding.UTF8.GetString(e.Message);
 			if(message == "F"){
 				is_pressing = true;
@@ -71,6 +76,10 @@ public class InputOutput {
 		bikeXAxis = bike.transform.rotation.x;
 
 		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
+
+		velocities[Convert.ToInt32(velocity)]++;
+		quantityVelocity++;
+
 		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
 
 		timer += Time.deltaTime;
@@ -109,6 +118,19 @@ public class InputOutput {
 	public static void Lock(){
 		is_pressing = false;
 		locked = true;
+	}
+
+	public static void Data(){
+		int max = 0, min = 99999;
+
+		long sum = 0;
+		for (int i = 1; i < 40; ++i) {
+			sum += velocities[i] * i;
+			min = Math.Min(min, velocities[i]);
+			max = Math.Max(max, velocities[i]);
+		}
+
+
 	}
 
 	public static void Unlock(){
