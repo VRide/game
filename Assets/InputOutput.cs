@@ -29,7 +29,7 @@ public class InputOutput {
 		velocity = 0f;
 		timer = 0f;
 
-		client = new MqttClient(IPAddress.Parse("10.0.0.1"), 1883 , false , null ); 
+		client = new MqttClient(IPAddress.Parse("127.0.0.1"), 1883 , false , null ); 
 		client.Connect("vride-7qx45t");
 		
 		client.MqttMsgPublishReceived += client_MqttMsgPublishReceived; 
@@ -44,7 +44,7 @@ public class InputOutput {
 	}
 
 	static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e){ 
-		Debug.Log ("Receivng " + e.Topic);
+		Debug.Log ("Receiving " + e.Topic);
 		//if(locked) return;
 
 		//string m = System.Text.Encoding.UTF8.GetString(e.Message);	
@@ -59,6 +59,7 @@ public class InputOutput {
 			}
 			//gameObject.transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed);
 		} else if (e.Topic == "bike/angle") {
+			Debug.Log(e.Message.ToString());
 			long angle = System.BitConverter.ToInt64 (e.Message, 0);
 			Debug.Log ("Recebeu bike/angle o valor de " + angle);
 			guidonRotation = angle;
@@ -79,25 +80,27 @@ public class InputOutput {
 			return;
 		}
 
-		/*if(Input.GetKey(KeyCode.LeftArrow)){
+		long angle = 0;
+		if(Input.GetKey(KeyCode.LeftArrow)){
 			// guidonRotation = -45f;
-				client.Publish("bike/angle", System.BitConverter.GetBytes(-45f) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			angle = -45;
+			client.Publish("bike/angle", System.BitConverter.GetBytes(angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			// gameObject.transform.Rotate(new Vector3(0, -speed * Time.deltaTime, 0));
 		}else if(Input.GetKey(KeyCode.RightArrow)){
 			// guidonRotation = 45f;
-				client.Publish("bike/angle", System.BitConverter.GetBytes(45f) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			angle = 45;
+			client.Publish("bike/angle", System.BitConverter.GetBytes(angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			// gameObject.transform.Rotate(new Vector3(0, speed * Time.deltaTime, 0));
 		}else{
-				client.Publish("bike/angle", System.BitConverter.GetBytes(0f) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			client.Publish("bike/angle", System.BitConverter.GetBytes(angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			
-		}*/
+		}
 
 
 		if (Input.GetKey (KeyCode.UpArrow)) {
 				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("F"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		} else {
 				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("S"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-			
 		}
 	
 

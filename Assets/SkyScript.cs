@@ -23,11 +23,19 @@ public class SkyScript : MonoBehaviour {
 		streetLights = streetlightGroup.GetComponentsInChildren<Light>();
 		directionalLight = GameObject.FindGameObjectWithTag("directionalLight");
 
-		if (PlayerInfo.turn == (int)PlayerInfo.Turns.Day) {
+		if (PlayerInfo.mode == (int)PlayerInfo.Modes.Free) {
+			Afternoon();
+		} else if (PlayerInfo.turn == (int)PlayerInfo.Turns.Day) {
 			Day ();
 		} else if (PlayerInfo.turn == (int)PlayerInfo.Turns.Night) {
 			Night ();
 		}
+	}
+
+	void Afternoon() {
+		directionalLight.transform.rotation = Quaternion.Euler (new Vector3(20, 0, 90));
+		directionalLight.GetComponent<Light> ().color = new Color(1F, 0.3921F, 0F, 1F);
+		directionalLight.GetComponent<Light> ().intensity = 2f;
 	}
 
 	void Day(){
@@ -54,5 +62,7 @@ public class SkyScript : MonoBehaviour {
 		cloud.SetActive (false);
 		directionalLight.SetActive (false);
 	}
+
+
 
 }

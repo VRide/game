@@ -3,6 +3,9 @@ using System.Collections;
 
 public class CameraMovementScript : MonoBehaviour {
 
+	// TODO: remover
+	public int mode;
+
 	public float speed;
 	public float forwardSpeed = 0f;
 	public float GravityModifier   = 0.379f;
@@ -51,7 +54,7 @@ public class CameraMovementScript : MonoBehaviour {
 			} 
 			nextCheckpoint = (actualCheckpoint + 1)%4;
 
-			if(laps == totalLaps + 1) finished = true;
+			if(laps == totalLaps + 1 && PlayerInfo.mode == (int) PlayerInfo.Modes.Running) finished = true;
 		}
 	}
 	
@@ -96,12 +99,19 @@ public class CameraMovementScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//TODO: remover
+		PlayerInfo.mode = this.mode;
+
 		InputOutput.Start ();
-		InputOutput.Lock();
+		if (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) {
+			InputOutput.Lock ();
+			startTime = 2.99f;
+		} else {
+			startTime = 0f;	
+		}
 		audio = gameObject.GetComponents<AudioSource> ()[0];
 		hitAudio = gameObject.GetComponents<AudioSource> ()[1];
 		audio.Play ();
-		startTime = 2.99f;
 		laps = 1;
 		time = 1;
 		totalLaps = 3 + PlayerInfo.laps;
@@ -142,7 +152,9 @@ public class CameraMovementScript : MonoBehaviour {
 			}
 
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
-			gui.GetComponent<TextMesh> ().text = "" + laps + "/" + totalLaps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00");
+			string s_laps = (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) ? laps + "/" + totalLaps : "MODO LIVRE";
+			
+			gui.GetComponent<TextMesh> ().text = "" + s_laps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00");
 		}
 
 		if (finished) {
