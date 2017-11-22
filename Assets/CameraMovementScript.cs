@@ -16,6 +16,9 @@ public class CameraMovementScript : MonoBehaviour {
 	private float time;
 	private float startTime;
 	private AudioSource audio, hitAudio;
+	private float totalDistance;
+	private float maxDistance;
+	private Vector3 lastDistance;
 	
 	private float   FallSpeed 	   = 0.0f;
 	protected CharacterController 	Controller 		 = null;
@@ -102,6 +105,9 @@ public class CameraMovementScript : MonoBehaviour {
 		//TODO: remover
 		PlayerInfo.mode = this.mode;
 
+		totalDistance = 0f;
+		maxDistance = 0f;
+		lastDistance = gameObject.transform.position;
 		InputOutput.Start ();
 		if (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) {
 			InputOutput.Lock ();
@@ -128,6 +134,7 @@ public class CameraMovementScript : MonoBehaviour {
 		gameObject.transform.rotation = Quaternion.Euler(orientation + new Vector3(0, 270, 0));
 		gameObject.transform.FindChild ("MountainBike_01").transform.localRotation = Quaternion.Euler(new Vector3(270, 270, 0));
 
+		lastDistance = gameObject.transform.position;
 		InputOutput.Reset();
 	}
 
@@ -147,6 +154,11 @@ public class CameraMovementScript : MonoBehaviour {
 			// FIXME: change to destroying object
 
 			if(!finished){
+				float currentDistance = Vector3.Distance(gameObject.transform.position, lastDistance);
+				totalDistance += currentDistance;
+				if(currentDistance > maxDistance) maxDistance = currentDistance;
+				Debug.Log(maxDistance);
+				lastDistance = gameObject.transform.position;
 				time += (float) System.Math.Round (Time.deltaTime, 2);
 				InputOutput.Unlock();
 			}
@@ -154,14 +166,14 @@ public class CameraMovementScript : MonoBehaviour {
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
 			string s_laps = (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) ? laps + "/" + totalLaps : "MODO LIVRE";
 			
-			gui.GetComponent<TextMesh> ().text = "" + s_laps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00");
+			gui.GetComponent<TextMesh> ().text = "" + s_laps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00") + "\n" +  totalDistance;
 		}
 
 		if (finished) {
 			// FIXME: change to creating object
 			InputOutput.Lock();
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
-			gui.GetComponent<TextMesh> ().text = "FINISH!\nTotal time:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f");	
+			gui.GetComponent<TextMesh> ().text = "FINISH!\nTotal time:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\nTotal distance: " + totalDistance;	
 		}
 
 		// FIXME: More elegant solution
