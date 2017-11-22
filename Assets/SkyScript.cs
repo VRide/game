@@ -12,6 +12,7 @@ public class SkyScript : MonoBehaviour {
 	private GameObject moon;
 	private Light[] streetLights;
 	private GameObject directionalLight;
+	private GameObject fenceGroup;
 
 	// Use this for initialization
 	void Start () {
@@ -22,9 +23,10 @@ public class SkyScript : MonoBehaviour {
 		streetlightGroup = GameObject.Find ("Streetlight Group");
 		streetLights = streetlightGroup.GetComponentsInChildren<Light>();
 		directionalLight = GameObject.FindGameObjectWithTag("directionalLight");
+		fenceGroup = GameObject.Find("Inner Fence Group");
 
 		if (PlayerInfo.mode == (int)PlayerInfo.Modes.Free) {
-			Afternoon();
+			FreeAfternoon();
 		} else if (PlayerInfo.turn == (int)PlayerInfo.Turns.Day) {
 			Day ();
 		} else if (PlayerInfo.turn == (int)PlayerInfo.Turns.Night) {
@@ -32,10 +34,13 @@ public class SkyScript : MonoBehaviour {
 		}
 	}
 
-	void Afternoon() {
+	void FreeAfternoon() {
 		directionalLight.transform.rotation = Quaternion.Euler (new Vector3(20, 0, 90));
 		directionalLight.GetComponent<Light> ().color = new Color(1F, 0.3921F, 0F, 1F);
 		directionalLight.GetComponent<Light> ().intensity = 2f;
+		stars.SetActive (false);
+		moon.SetActive (false);
+		fenceGroup.SetActive (false);
 	}
 
 	void Day(){
