@@ -1,149 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
-	<BaseDirectory>Assets</BaseDirectory>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_6_0;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_6_0;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
-    <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="System.Xml.Linq" />
-	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing">
+      <HintPath>C:\Users\JoseRenato\game\Assets\Statistics\system.drawing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CameraMovementScript.cs" />
-     <Compile Include="Assets\CheeringScript.cs" />
-     <Compile Include="Assets\FenceAudioScript.cs" />
-     <Compile Include="Assets\GrassAudioScript.cs" />
-     <Compile Include="Assets\HandleBarScript.cs" />
-     <Compile Include="Assets\InputOutput.cs" />
-     <Compile Include="Assets\KneeScript.cs" />
-     <Compile Include="Assets\MQTT\scripts\Exceptions\MqttClientException.cs" />
-     <Compile Include="Assets\MQTT\scripts\Exceptions\MqttCommunicationException.cs" />
-     <Compile Include="Assets\MQTT\scripts\Exceptions\MqttConnectionException.cs" />
-     <Compile Include="Assets\MQTT\scripts\Exceptions\MqttTimeoutException.cs" />
-     <Compile Include="Assets\MQTT\scripts\IMqttNetworkChannel.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgBase.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgConnack.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgConnect.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgConnectEventArgs.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgContext.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgDisconnect.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPingReq.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPingResp.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPuback.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPubcomp.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPublish.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPublishEventArgs.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPublishedEventArgs.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPubrec.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPubrel.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgSuback.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgSubscribe.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgSubscribeEventArgs.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgSubscribedEventArgs.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgUnsuback.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgUnsubscribe.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgUnsubscribeEventArgs.cs" />
-     <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgUnsubscribedEventArgs.cs" />
-     <Compile Include="Assets\MQTT\scripts\MqttClient.cs" />
-     <Compile Include="Assets\MQTT\scripts\MqttNetworkChannel.cs" />
-     <Compile Include="Assets\MQTT\scripts\MqttSettings.cs" />
-     <Compile Include="Assets\MQTT\scripts\Utility\QueueExtension.cs" />
-     <Compile Include="Assets\MQTT\scripts\Utility\Trace.cs" />
-     <Compile Include="Assets\MQTT\scripts\test\mqttTest.cs" />
-     <Compile Include="Assets\Menu\AccountDelete.cs" />
-     <Compile Include="Assets\Menu\AccountSelect.cs" />
-     <Compile Include="Assets\Menu\CountLaps.cs" />
-     <Compile Include="Assets\Menu\IgnoreRaycast.cs" />
-     <Compile Include="Assets\Menu\LookInputModule.cs" />
-     <Compile Include="Assets\Menu\MenuController.cs" />
-     <Compile Include="Assets\Menu\WeightHeight.cs" />
-     <Compile Include="Assets\NewBehaviourScript.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCrosshair.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRDevice.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGUI.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGamepadController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGridCube.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRHmd.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRMainMenu.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRPlayerController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRPresetManager.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
-     <Compile Include="Assets\PeopleScript.cs" />
-     <Compile Include="Assets\PlayerInfo.cs" />
-     <Compile Include="Assets\SimpleCloudSystem by RM\SceneComponents\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
-     <Compile Include="Assets\SkyScript.cs" />
-     <Compile Include="Assets\Statistics\ImageScript.cs" />
-     <Compile Include="Assets\Storage\DatabaseSingleton.cs" />
-     <Compile Include="Assets\Storage\Measure.cs" />
-     <Compile Include="Assets\Storage\Player.cs" />
-     <Compile Include="Assets\Storage\PlayerDAO.cs" />
-     <Compile Include="Assets\ThighScript.cs" />
-     <Compile Include="Assets\WheelMovement.cs" />
-     <None Include="Assets\Plugins\donotdelete.txt" />
-     <None Include="Assets\MountainBike\Shaders\Comp_Illumin-Reflect-Diffuse.shader" />
-     <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
-     <None Include="Assets\animated_woman\woman_motiondata.xml" />
-     <None Include="Assets\MountainBike\Shaders\Comp_Reflect-Diffuse.shader" />
-     <None Include="Assets\MountainBike\Shaders\Comp_Base-Specular.shader" />
-     <None Include="Assets\SimpleCloudSystem by RM\Read Me.txt" />
-     <None Include="Assets\MountainBike\Shaders\Comp_Illumin-Alpha-Diffuse2S.shader" />
-     <None Include="Assets\SimpleCloudSystem by RM\SCS Instructions.txt" />
-     <None Include="Assets\MountainBike\Shaders\Comp_Base-Diffuse.shader" />
-     <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
-     <None Include="Assets\Urban_Props\readme.txt" />
-     <None Include="Assets\animated_male\man_motiondata.xml" />
-     <None Include="Assets\animated_male\man_994_notes.txt" />
-     <None Include="Assets\animated_woman\woman_1046_notes.txt" />
- <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="system.drawing">
- <HintPath>C:/Users/mateus/Documents/game/Assets/Statistics/system.drawing.dll</HintPath>
- </Reference>
- <Reference Include="iBoxDB.NET2">
- <HintPath>C:/Users/mateus/Documents/game/Assets/Storage/iBoxDB.NET2.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\CameraMovementScript.cs" />
+    <Compile Include="Assets\CheeringScript.cs" />
+    <Compile Include="Assets\FenceAudioScript.cs" />
+    <Compile Include="Assets\GrassAudioScript.cs" />
+    <Compile Include="Assets\HandleBarScript.cs" />
+    <Compile Include="Assets\InputOutput.cs" />
+    <Compile Include="Assets\KneeScript.cs" />
+    <Compile Include="Assets\MQTT\scripts\Exceptions\MqttClientException.cs" />
+    <Compile Include="Assets\MQTT\scripts\Exceptions\MqttCommunicationException.cs" />
+    <Compile Include="Assets\MQTT\scripts\Exceptions\MqttConnectionException.cs" />
+    <Compile Include="Assets\MQTT\scripts\Exceptions\MqttTimeoutException.cs" />
+    <Compile Include="Assets\MQTT\scripts\IMqttNetworkChannel.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgBase.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgConnack.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgConnect.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgConnectEventArgs.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgContext.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgDisconnect.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPingReq.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPingResp.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPuback.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPubcomp.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPublish.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPublishEventArgs.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPublishedEventArgs.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPubrec.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgPubrel.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgSuback.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgSubscribe.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgSubscribeEventArgs.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgSubscribedEventArgs.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgUnsuback.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgUnsubscribe.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgUnsubscribeEventArgs.cs" />
+    <Compile Include="Assets\MQTT\scripts\Messages\MqttMsgUnsubscribedEventArgs.cs" />
+    <Compile Include="Assets\MQTT\scripts\MqttClient.cs" />
+    <Compile Include="Assets\MQTT\scripts\MqttNetworkChannel.cs" />
+    <Compile Include="Assets\MQTT\scripts\MqttSettings.cs" />
+    <Compile Include="Assets\MQTT\scripts\Utility\QueueExtension.cs" />
+    <Compile Include="Assets\MQTT\scripts\Utility\Trace.cs" />
+    <Compile Include="Assets\MQTT\scripts\test\mqttTest.cs" />
+    <Compile Include="Assets\Menu\AccountDelete.cs" />
+    <Compile Include="Assets\Menu\AccountSelect.cs" />
+    <Compile Include="Assets\Menu\CountLaps.cs" />
+    <Compile Include="Assets\Menu\IgnoreRaycast.cs" />
+    <Compile Include="Assets\Menu\LookInputModule.cs" />
+    <Compile Include="Assets\Menu\MenuController.cs" />
+    <Compile Include="Assets\Menu\WeightHeight.cs" />
+    <Compile Include="Assets\NewBehaviourScript.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRCrosshair.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRDevice.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRGUI.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRGamepadController.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRGridCube.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRHmd.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRMainMenu.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRPlayerController.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRPresetManager.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
+    <Compile Include="Assets\PeopleScript.cs" />
+    <Compile Include="Assets\PlayerInfo.cs" />
+    <Compile Include="Assets\SimpleCloudSystem by RM\SceneComponents\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
+    <Compile Include="Assets\SkyScript.cs" />
+    <Compile Include="Assets\Statistics\EmulateValues.cs" />
+    <Compile Include="Assets\Statistics\ImageScript.cs" />
+    <Compile Include="Assets\Storage\DatabaseSingleton.cs" />
+    <Compile Include="Assets\Storage\Measure.cs" />
+    <Compile Include="Assets\Storage\Player.cs" />
+    <Compile Include="Assets\Storage\PlayerDAO.cs" />
+    <Compile Include="Assets\ThighScript.cs" />
+    <Compile Include="Assets\WheelMovement.cs" />
+    <None Include="Assets\Plugins\donotdelete.txt" />
+    <None Include="Assets\MountainBike\Shaders\Comp_Illumin-Reflect-Diffuse.shader" />
+    <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
+    <None Include="Assets\animated_woman\woman_motiondata.xml" />
+    <None Include="Assets\MountainBike\Shaders\Comp_Reflect-Diffuse.shader" />
+    <None Include="Assets\MountainBike\Shaders\Comp_Base-Specular.shader" />
+    <None Include="Assets\SimpleCloudSystem by RM\Read Me.txt" />
+    <None Include="Assets\MountainBike\Shaders\Comp_Illumin-Alpha-Diffuse2S.shader" />
+    <None Include="Assets\SimpleCloudSystem by RM\SCS Instructions.txt" />
+    <None Include="Assets\MountainBike\Shaders\Comp_Base-Diffuse.shader" />
+    <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
+    <None Include="Assets\Urban_Props\readme.txt" />
+    <None Include="Assets\animated_male\man_motiondata.xml" />
+    <None Include="Assets\animated_male\man_994_notes.txt" />
+    <None Include="Assets\animated_woman\woman_1046_notes.txt" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="iBoxDB.NET2">
+      <HintPath>C:\Users\JoseRenato\game\Assets\Storage\iBoxDB.NET2.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -153,5 +153,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

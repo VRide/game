@@ -1,9 +1,9 @@
 using System;
 
 public class Measure {
-	int max;
-	int min;
-	int average;
+	public int max  {get; set;}
+	public int min  {get; set;}
+	public int average {get; set;}
 
 	public Measure(){}
 	

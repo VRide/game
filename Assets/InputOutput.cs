@@ -142,9 +142,9 @@ public class InputOutput {
 		Measure heartRate = calculateMeasure (heartRates);
 		Measure electrodermalActivity = calculateMeasure (electrodermalActivities);  
 
-		PlayerInfo.currentPlayer.velocities.Add (velocity);
-		PlayerInfo.currentPlayer.heartRates.Add (heartRate);
-		PlayerInfo.currentPlayer.electrodermalActivities.Add (electrodermalActivity);
+		// PlayerInfo.currentPlayer.velocities.Add (velocity);
+		// PlayerInfo.currentPlayer.heartRates.Add (heartRate);
+		// PlayerInfo.currentPlayer.electrodermalActivities.Add (electrodermalActivity);
 
 		PlayerDAO.updatePlayer (PlayerInfo.currentPlayer);
 	}
