@@ -115,6 +115,7 @@
      <Compile Include="Assets\SkyScript.cs" />
      <Compile Include="Assets\Statistics\ImageScript.cs" />
      <Compile Include="Assets\Storage\DatabaseSingleton.cs" />
+     <Compile Include="Assets\Storage\Measure.cs" />
      <Compile Include="Assets\Storage\Player.cs" />
      <Compile Include="Assets\Storage\PlayerDAO.cs" />
      <Compile Include="Assets\ThighScript.cs" />
@@ -138,10 +139,10 @@
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="system.drawing">
- <HintPath>D:/Users/João Vitor/Documents/game/Assets/Statistics/system.drawing.dll</HintPath>
+ <HintPath>C:/Users/mateus/Documents/game/Assets/Statistics/system.drawing.dll</HintPath>
  </Reference>
  <Reference Include="iBoxDB.NET2">
- <HintPath>D:/Users/João Vitor/Documents/game/Assets/Storage/iBoxDB.NET2.dll</HintPath>
+ <HintPath>C:/Users/mateus/Documents/game/Assets/Storage/iBoxDB.NET2.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,8 +6,13 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 using uPLibrary.Networking.M2Mqtt.Utility;
 using uPLibrary.Networking.M2Mqtt.Exceptions;
 using System;
+using System.Collections.Generic;
 
 public class InputOutput {
+
+	// public const int maxHeartRate = 200;
+	// public const int maxElectrodermalActivity = 100;
+	public const int maxVelocity = 40;
 
 	private static float guidonRotation = 0f;
 	public static float velocity {get; private set;}
@@ -20,8 +25,10 @@ public class InputOutput {
 
 	private static GameObject bike;
 	private static MqttClient client;
-	private int[] velocities = new int[40];
-	private long quantityVelocity;
+
+	private static int[] velocities = new int[maxVelocity];
+	private static List<int> electrodermalActivities;
+	private static List<int> heartRates;
 
 	private static float timer;
 
@@ -30,8 +37,10 @@ public class InputOutput {
 		bike = GameObject.FindGameObjectWithTag("Player");
 		velocity = 0f;
 		timer = 0f;
-		quantityVelocity = 0;
-		Array.Clear(velocities, 0, 40);
+
+		electrodermalActivities = new List<int> ();
+		heartRates = new List<int> ();
+		Array.Clear(velocities, 0, maxVelocity);
 
 		client = new MqttClient(IPAddress.Parse("127.0.0.1"), 1883 , false , null ); 
 		client.Connect("vride-7qx45t");
@@ -69,6 +78,15 @@ public class InputOutput {
 			Debug.Log ("Recebeu bike/angle o valor de " + angle);
 			guidonRotation = angle;
 		}
+		/*
+		else if (e.Topic == "bike/heart") {
+			int rate = System.BitConverter.ToInt64 (e.Message, 0);
+			heartRates.Add(rate);
+		} else if (e.Topic == "bike/electrodermal") {
+			int activity = System.BitConverter.ToInt64 (e.Message, 0);
+			electrodermalActivities.Add(activity);
+		}
+		*/
 	} 
 	
 	// Update is called once per frame
@@ -78,7 +96,6 @@ public class InputOutput {
 		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
 
 		velocities[Convert.ToInt32(velocity)]++;
-		quantityVelocity++;
 
 		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
 
@@ -121,16 +138,30 @@ public class InputOutput {
 	}
 
 	public static void Data(){
-		int max = 0, min = 99999;
+		Measure velocity = calculateMeasure(new List<int> (velocities));
+		Measure heartRate = calculateMeasure (heartRates);
+		Measure electrodermalActivity = calculateMeasure (electrodermalActivities);  
 
-		long sum = 0;
-		for (int i = 1; i < 40; ++i) {
-			sum += velocities[i] * i;
-			min = Math.Min(min, velocities[i]);
-			max = Math.Max(max, velocities[i]);
+		PlayerInfo.currentPlayer.velocities.Add (velocity);
+		PlayerInfo.currentPlayer.heartRates.Add (heartRate);
+		PlayerInfo.currentPlayer.electrodermalActivities.Add (electrodermalActivity);
+
+		PlayerDAO.updatePlayer (PlayerInfo.currentPlayer);
+	}
+
+	public static Measure calculateMeasure (List<int> list)
+	{
+		int max = 0, min = 99999;
+		long sum = 0, n = 0;
+
+		for (int i = 1; i < list.Count; ++i) {
+			n += list [i] == 0? 0: 1;
+			sum += list [i] * i;
+			min = Math.Min (min, Convert.ToInt32 (list [i]));
+			max = Math.Max (max, Convert.ToInt32 (list [i]));
 		}
 
-
+		return new Measure (max, min, Convert.ToInt32 (sum / n));
 	}
 
 	public static void Unlock(){

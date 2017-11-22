@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Player {
 
@@ -10,12 +10,17 @@ public class Player {
 	public int height;
 	public int weight;
 	public int gender;
-	public List<Velocity> velocities;
+	public List<Measure> velocities;
+	public List<Measure> heartRates;
+	public List<Measure> electrodermalActivities;
 
 	public Player(){}
 
 	public Player(int id){
 		this.id = Convert.ToInt64(id);
+		this.velocities = new List<Measure> ();
+		this.heartRates = new List<Measure> ();
+		this.electrodermalActivities = new List<Measure> ();
 	}
 
 	public Player(int id, string name, int height, int weight, int gender){
@@ -24,6 +29,9 @@ public class Player {
 		this.height = height;
 		this.weight = weight;
 		this.gender = gender;
+		this.velocities = new List<Measure> ();
+		this.heartRates = new List<Measure> ();
+		this.electrodermalActivities = new List<Measure> ();
 	}
 }
 
