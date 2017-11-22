@@ -19,7 +19,7 @@ public class CameraMovementScript : MonoBehaviour {
 	private float totalDistance;
 	private float maxDistance;
 	private Vector3 lastDistance;
-	
+
 	private float   FallSpeed 	   = 0.0f;
 	protected CharacterController 	Controller 		 = null;
 	protected OVRCameraController 	CameraController = null;
@@ -140,6 +140,11 @@ public class CameraMovementScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (InputOutput.paused) {
+			Time.timeScale = 0.0001f;
+		}else{
+			Time.timeScale = 1f;
+		}
 		float pitch = InputOutput.velocity / 15f;
 		audio.pitch = pitch;
 		if (startTime >= 0) {
@@ -153,7 +158,7 @@ public class CameraMovementScript : MonoBehaviour {
 		} else {
 			// FIXME: change to destroying object
 
-			if(!finished){
+			if(!finished && !InputOutput.paused){
 				float currentDistance = Vector3.Distance(gameObject.transform.position, lastDistance);
 				totalDistance += currentDistance;
 				if(currentDistance > maxDistance) maxDistance = currentDistance;
@@ -166,14 +171,14 @@ public class CameraMovementScript : MonoBehaviour {
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
 			string s_laps = (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) ? laps + "/" + totalLaps : "MODO LIVRE";
 			
-			gui.GetComponent<TextMesh> ().text = "" + s_laps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00") + "\n" +  totalDistance;
+			gui.GetComponent<TextMesh> ().text = "" + s_laps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00") + "\n" +  totalDistance.ToString("0.00");
 		}
 
 		if (finished) {
 			// FIXME: change to creating object
 			InputOutput.Lock();
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
-			gui.GetComponent<TextMesh> ().text = "FINISH!\nTotal time:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\nTotal distance: " + totalDistance;	
+			gui.GetComponent<TextMesh> ().text = "FINISH!\nTotal time:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\nTotal distance: " + totalDistance.ToString("0.00");	
 		}
 
 		// FIXME: More elegant solution

@@ -22,6 +22,7 @@ public class InputOutput {
 	private static bool is_pressing = false;
 	public static float maxSpeed = 30f;
 	private static bool locked = false;
+	public static bool paused;
 
 	private static GameObject bike;
 	private static MqttClient client;
@@ -34,6 +35,7 @@ public class InputOutput {
 
 	// Use this for initialization
 	public static void Start () {
+		paused = false;
 		bike = GameObject.FindGameObjectWithTag("Player");
 		velocity = 0f;
 		timer = 0f;
@@ -49,6 +51,7 @@ public class InputOutput {
 
 		client.Subscribe(new string[] { "bike/angle" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 		client.Subscribe(new string[] { "bike/velocity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+		client.Subscribe(new string[] { "bike/hand" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 	}
 
 	public static void Reset(){
@@ -77,6 +80,10 @@ public class InputOutput {
 			long angle = System.BitConverter.ToInt64 (e.Message, 0);
 			Debug.Log ("Recebeu bike/angle o valor de " + angle);
 			guidonRotation = angle;
+		}else if (e.Topic == "bike/hand") {
+			Debug.Log("Enter hand");
+			bool pause = System.BitConverter.ToBoolean(e.Message, 0);
+			paused = pause;
 		}
 		/*
 		else if (e.Topic == "bike/heart") {
@@ -99,6 +106,13 @@ public class InputOutput {
 
 		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
 
+		
+		if(Input.GetKeyDown(KeyCode.Space)){
+			Debug.Log("PRESSED SPACES");
+
+			client.Publish("bike/hand", System.BitConverter.GetBytes(!paused) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+		}
+
 		timer += Time.deltaTime;
 		if (timer >= 0.050f) {
 			timer = 0;
@@ -119,9 +133,7 @@ public class InputOutput {
 			// gameObject.transform.Rotate(new Vector3(0, speed * Time.deltaTime, 0));
 		}else{
 			client.Publish("bike/angle", System.BitConverter.GetBytes(angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-			
 		}
-
 
 		if (Input.GetKey (KeyCode.UpArrow)) {
 				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("F"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
