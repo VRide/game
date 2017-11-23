@@ -13,17 +13,24 @@ public class SkyScript : MonoBehaviour {
 	private Light[] streetLights;
 	private GameObject directionalLight;
 	private GameObject fenceGroup;
+	private GameObject goalRoad;
+	private GameObject humanCheer;
+	private GameObject fence;
 
 	// Use this for initialization
 	void Start () {
 		stars = GameObject.FindGameObjectWithTag("Star");
 		cloud = GameObject.FindGameObjectWithTag("Cloud");
 		sun = GameObject.FindGameObjectWithTag("Sun");
-		moon = GameObject.FindGameObjectWithTag("Moon");
+		moon = GameObject.Find("Moon");
 		streetlightGroup = GameObject.Find ("Streetlight Group");
 		streetLights = streetlightGroup.GetComponentsInChildren<Light>();
 		directionalLight = GameObject.FindGameObjectWithTag("directionalLight");
 		fenceGroup = GameObject.Find("Inner Fence Group");
+		goalRoad = GameObject.Find("goal road prefab");
+		humanCheer = GameObject.Find ("HumanCheer");
+		fence = GameObject.FindGameObjectWithTag("ee");
+		
 
 		if (PlayerInfo.mode == (int)PlayerInfo.Modes.Free) {
 			FreeAfternoon();
@@ -41,6 +48,10 @@ public class SkyScript : MonoBehaviour {
 		stars.SetActive (false);
 		moon.SetActive (false);
 		fenceGroup.SetActive (false);
+		goalRoad.SetActive (false);
+		humanCheer.SetActive (false);
+		fence.collider.isTrigger = true;
+
 	}
 
 	void Day(){
