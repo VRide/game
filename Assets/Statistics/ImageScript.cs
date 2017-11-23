@@ -3,6 +3,7 @@ using System.Collections;
 using System.Drawing;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class ImageScript : MonoBehaviour {
 	
@@ -14,6 +15,7 @@ public class ImageScript : MonoBehaviour {
 		Pen redPen = new Pen(System.Drawing.Color.Red, 20);
 
 		using(var graphics = System.Drawing.Graphics.FromImage(bmp)){
+			/*
 			Measure[] measure;
 			Player player1 = PlayerDAO.getPlayer(1);
 			if(gameObject.name == "ImageVelocity"){
@@ -23,6 +25,7 @@ public class ImageScript : MonoBehaviour {
 			}else{
 				measure = player1.heartRates.ToArray();
 			}
+
 
 			int x = 2000/measure.Length;
 			Measure last = new Measure(0, 0, 0);
@@ -35,6 +38,22 @@ public class ImageScript : MonoBehaviour {
 				graphics.DrawLine(greenPen, x1 ,y1, x2, y2);
 				last = measure[i];
 			}
+			*/
+
+			int x = 250, j = 1;
+			Measure last = new Measure(0, 0, 0, 0, 0, 0);
+			foreach(var i in DatabaseSingleton.Instance.db.Select<Measure>("from Measure where playerId==? order by type", Convert.ToInt64(1))){
+				int x1 = x*j++;
+				int y1 = 1000 - (last.average * 10);
+				int x2 = x*(j+1);
+				int y2 = 1000 - (i.average * 10);
+
+				if(i.type == 0){
+					graphics.DrawLine(greenPen, x1 ,y1, x2, y2);
+				}
+				last = i;
+			}
+
 		}
 	
 	}

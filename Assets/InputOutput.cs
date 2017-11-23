@@ -138,9 +138,9 @@ public class InputOutput {
 	}
 
 	public static void Data(){
-		Measure velocity = calculateMeasure(new List<int> (velocities));
-		Measure heartRate = calculateMeasure (heartRates);
-		Measure electrodermalActivity = calculateMeasure (electrodermalActivities);  
+		// Measure velocity = calculateMeasure(new List<int> (velocities));
+		// Measure heartRate = calculateMeasure (heartRates);
+		// Measure electrodermalActivity = calculateMeasure (electrodermalActivities);  
 
 		// PlayerInfo.currentPlayer.velocities.Add (velocity);
 		// PlayerInfo.currentPlayer.heartRates.Add (heartRate);
@@ -161,7 +161,8 @@ public class InputOutput {
 			max = Math.Max (max, Convert.ToInt32 (list [i]));
 		}
 
-		return new Measure (max, min, Convert.ToInt32 (sum / n));
+		return null;
+		//return new Measure (max, min, Convert.ToInt32 (sum / n));
 	}
 
 	public static void Unlock(){

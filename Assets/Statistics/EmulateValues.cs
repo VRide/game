@@ -4,11 +4,14 @@ using System.Collections.Generic;
 
 public class EmulateValues : MonoBehaviour{
 		void Start (){
-			Measure velocity = new Measure(30, 2, 14);
-			Measure velocity2 = new Measure(35, 1, 24);
-			Measure velocity3 = new Measure(40, 3, 20);
-			Measure velocity4 = new Measure(38, 1, 16);
+			Measure velocity = new Measure(1, 2, 34, 2, 14, 1);
+			Measure velocity2 = new Measure(2, 2, 35, 1, 4, 1);
+			Measure velocity3 = new Measure(3, 2, 34, 5, 20, 1);
+			Measure velocity4 = new Measure(4, 2, 75, 10 ,6, 1);
 
+			//print(DatabaseSingleton.Instance.db.Insert ("Measure", velocity, velocity2, velocity3, velocity4));
+
+			/*
 			Measure heart = new Measure (14, 10, 9);
 			Measure heart2 = new Measure (11, 3, 10);
 			Measure heart3 = new Measure (14, 4, 9);
@@ -40,7 +43,7 @@ public class EmulateValues : MonoBehaviour{
 			renata.heartRates.Add(heart4);
 
 			bool ok = PlayerDAO.createPlayer (renata);
-			
+			*/
 		}
 	
 		void Update (){
