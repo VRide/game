@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 public class EmulateValues : MonoBehaviour{
 		void Start (){
-			Measure velocity = new Measure(1, 2, 34, 2, 14, 1);
-			Measure velocity2 = new Measure(2, 2, 35, 1, 4, 1);
-			Measure velocity3 = new Measure(3, 2, 34, 5, 20, 1);
-			Measure velocity4 = new Measure(4, 2, 75, 10 ,6, 1);
+			Measure velocity = new Measure(1, 0, 8, 13, 6, 1);
+			Measure velocity2 = new Measure(2, 0, 6, 12, 18, 1);
+			Measure velocity3 = new Measure(3, 0, 8, 14, 2, 1);
+			Measure velocity4 = new Measure(4, 0, 9, 18 ,27, 1);
 
 			//print(DatabaseSingleton.Instance.db.Insert ("Measure", velocity, velocity2, velocity3, velocity4));
 
