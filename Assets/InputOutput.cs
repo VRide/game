@@ -99,6 +99,7 @@ public class InputOutput {
 	// Update is called once per frame
 	public static void Update () {
 		bikeXAxis = bike.transform.rotation.x;
+		AudioListener.volume = paused ? 0f : 1f;
 
 		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
 

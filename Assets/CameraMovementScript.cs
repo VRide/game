@@ -124,14 +124,15 @@ public class CameraMovementScript : MonoBehaviour {
 	}
 
 	void Reset() {
-		float height = (lastCollided.GetComponent<Collider> ().bounds.size.y / 2f + lastCollided.transform.position.y) + 0.95f;
+		float height = 2.44f + 0.95f;
+		Debug.Log ("HEIGHT: " + (lastCollided.GetComponent<Collider> ().bounds.size.y / 2f));
 		Vector3 orientation = lastCollided.GetComponent<Collider> ().transform.rotation.eulerAngles;
 
 		rigidbody.velocity = new Vector3(0f,0f,0f); 
 		rigidbody.angularVelocity = new Vector3(0f,0f,0f);
 
 		gameObject.transform.position = lastCollided.transform.position + new Vector3(0f, height, 0f);
-		gameObject.transform.rotation = Quaternion.Euler(orientation + new Vector3(0, 270, 0));
+		gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, orientation.y + 270, 0));
 		gameObject.transform.FindChild ("MountainBike_01").transform.localRotation = Quaternion.Euler(new Vector3(270, 270, 0));
 
 		lastDistance = gameObject.transform.position;
