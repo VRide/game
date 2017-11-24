@@ -21,6 +21,8 @@ public class ImageScript : MonoBehaviour {
 		Pen greenPen = new Pen(System.Drawing.Color.Green, widthPen);
 		Pen redPen = new Pen(System.Drawing.Color.Red, widthPen);
 
+		int playerId = Convert.ToInt32(PlayerInfo.currentPlayer.id);
+
 		using(var graphics = System.Drawing.Graphics.FromImage(bmp)){
 			long count = DatabaseSingleton.Instance.db.SelectCount("from Measure where playerId==?", Convert.ToInt64(1));
 		
@@ -76,7 +78,7 @@ public class ImageScript : MonoBehaviour {
 
 		using (var graphics = System.Drawing.Graphics.FromImage(bmp)) {
 		
-			System.Drawing.Font drawFont = new System.Drawing.Font("Arial", 30);
+			System.Drawing.Font drawFont = new System.Drawing.Font("Arial", 40);
 			SolidBrush drawBrush = new SolidBrush(System.Drawing.Color.Black);
 
 			float y = (float)height-(min * scale);

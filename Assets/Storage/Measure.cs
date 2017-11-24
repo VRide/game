@@ -15,7 +15,7 @@ public class Measure {
 	public Measure(){}
 	
 	public Measure(long track, int type, int max, int min, int average, long playerId){
-		this.id = DatabaseSingleton.Instance.db.NewId ();
+		this.id = MeasureDAO.generateId ();
 		this.track = track;
 		this.type = type;
 		this.max = max;

@@ -122,13 +122,11 @@ public class InputOutput {
 			
 		}
 
-
 		if (Input.GetKey (KeyCode.UpArrow)) {
 				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("F"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		} else {
 				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("S"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		}
-	
 
 	}
 
@@ -138,19 +136,16 @@ public class InputOutput {
 	}
 
 	public static void Data(){
-		// Measure velocity = calculateMeasure(new List<int> (velocities));
-		// Measure heartRate = calculateMeasure (heartRates);
-		// Measure electrodermalActivity = calculateMeasure (electrodermalActivities);  
+		Measure velocity = calculateMeasure(new List<int> (velocities), (int)Measure.Type.Velocity);
+		Measure heartRate = calculateMeasure (heartRates, (int)Measure.Type.HeartRate);
+		Measure electrodermalActivity = calculateMeasure (electrodermalActivities, (int)Measure.Type.ElectrodermalActivity);  
 
-		// PlayerInfo.currentPlayer.velocities.Add (velocity);
-		// PlayerInfo.currentPlayer.heartRates.Add (heartRate);
-		// PlayerInfo.currentPlayer.electrodermalActivities.Add (electrodermalActivity);
-
-		PlayerDAO.updatePlayer (PlayerInfo.currentPlayer);
+		MeasureDAO.createMeasure (velocity);
+		MeasureDAO.createMeasure (heartRate);
+		MeasureDAO.createMeasure (electrodermalActivity);
 	}
 
-	public static Measure calculateMeasure (List<int> list)
-	{
+	public static Measure calculateMeasure (List<int> list, int type){
 		int max = 0, min = 99999;
 		long sum = 0, n = 0;
 
@@ -161,8 +156,9 @@ public class InputOutput {
 			max = Math.Max (max, Convert.ToInt32 (list [i]));
 		}
 
-		return null;
-		//return new Measure (max, min, Convert.ToInt32 (sum / n));
+		int track = PlayerInfo.currentPlayer.free + PlayerInfo.currentPlayer.running; 
+
+		return new Measure (track, type, max, min, Convert.ToInt32 (sum / n), PlayerInfo.currentPlayer.id);
 	}
 
 	public static void Unlock(){
@@ -175,5 +171,9 @@ public class InputOutput {
 	
 	public static float getVelocity() {
 		return velocity;
+	}
+
+	public static int[] getVelocities() {
+		return velocities;
 	}
 }

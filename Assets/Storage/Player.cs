@@ -11,7 +11,10 @@ public class Player {
 	public int height;
 	public int weight;
 	public int gender;
-
+	public int free;
+	public int running;
+	public long time;
+	public long distance;
 
 	public Player(){}
 
