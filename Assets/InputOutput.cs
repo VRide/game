@@ -22,6 +22,9 @@ public class InputOutput {
 	public static float maxSpeed = 30f;
 	private static bool locked = false;
 	public static bool paused;
+	public static bool quit;
+	public static bool rightHand;
+	public static bool leftHand;
 
 	private static GameObject bike;
 	private static MqttClient client;
@@ -35,6 +38,9 @@ public class InputOutput {
 	// Use this for initialization
 	public static void Start () {
 		paused = false;
+		quit = false;
+		rightHand = true;
+		leftHand = true;
 		bike = GameObject.FindGameObjectWithTag("Player");
 		velocity = 0f;
 		timer = 0f;
@@ -50,7 +56,8 @@ public class InputOutput {
 
 		client.Subscribe(new string[] { "bike/angle" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 		client.Subscribe(new string[] { "bike/velocity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
-		client.Subscribe(new string[] { "bike/hand" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+		client.Subscribe(new string[] { "bike/hand/right" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+		client.Subscribe(new string[] { "bike/hand/left" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 	}
 
 	public static void Reset(){
@@ -79,10 +86,14 @@ public class InputOutput {
 			long angle = System.BitConverter.ToInt64 (e.Message, 0);
 			Debug.Log ("Recebeu bike/angle o valor de " + angle);
 			guidonRotation = angle;
-		}else if (e.Topic == "bike/hand") {
-			Debug.Log("Enter hand");
-			bool pause = System.BitConverter.ToBoolean(e.Message, 0);
-			paused = pause;
+		}else if (e.Topic == "bike/hand/right") {
+			Debug.Log("Enter right hand");
+			bool hand = System.BitConverter.ToBoolean(e.Message, 0);
+			rightHand = hand;
+		}else if (e.Topic == "bike/hand/left") {
+			Debug.Log("Enter left hand");
+			bool hand = System.BitConverter.ToBoolean(e.Message, 0);
+			leftHand = hand;
 		}
 		/*
 		else if (e.Topic == "bike/heart") {
@@ -100,6 +111,9 @@ public class InputOutput {
 		bikeXAxis = bike.transform.rotation.x;
 		AudioListener.volume = paused ? 0f : 1f;
 
+		paused = (!rightHand || !leftHand);
+		quit = (!rightHand && !leftHand);
+
 		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
 
 
@@ -107,12 +121,11 @@ public class InputOutput {
 
 		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
 
-		
-		if(Input.GetKeyDown(KeyCode.Space)){
-			Debug.Log("PRESSED SPACES");
+		if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyUp(KeyCode.X))
+			client.Publish ("bike/hand/right", System.BitConverter.GetBytes (Input.GetKey (KeyCode.X)), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 
-			client.Publish("bike/hand", System.BitConverter.GetBytes(!paused) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-		}
+		if(Input.GetKeyDown(KeyCode.Z) || Input.GetKeyUp(KeyCode.Z))
+			client.Publish ("bike/hand/left", System.BitConverter.GetBytes (Input.GetKey (KeyCode.Z)), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 
 		timer += Time.deltaTime;
 		if (timer >= 0.050f) {

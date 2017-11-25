@@ -112,12 +112,8 @@ public class CameraMovementScript : MonoBehaviour {
 		maxDistance = 0f;
 		lastDistance = gameObject.transform.position;
 		InputOutput.Start ();
-		if (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) {
-			InputOutput.Lock ();
-			startTime = 2.99f;
-		} else {
-			startTime = 0f;	
-		}
+		InputOutput.Lock ();
+		startTime = 2.99f;	
 		audio = gameObject.GetComponents<AudioSource> ()[0];
 		hitAudio = gameObject.GetComponents<AudioSource> ()[1];
 		audio.Play ();
@@ -155,7 +151,7 @@ public class CameraMovementScript : MonoBehaviour {
 			startTime -= (float) System.Math.Round (Time.deltaTime, 2);
 			 
 			if(startTime.ToString("0") == "0"){
-				gui.GetComponent<TextMesh> ().text = "GO!";
+				gui.GetComponent<TextMesh> ().text = "COMEÇOU!";
 			}else{
 				gui.GetComponent<TextMesh> ().text = startTime.ToString ("0");
 			}
@@ -183,7 +179,7 @@ public class CameraMovementScript : MonoBehaviour {
 			InputOutput.Data();
 			InputOutput.Lock();
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
-			gui.GetComponent<TextMesh> ().text = "FINISH!\nTotal time:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\nTotal distance: " + totalDistance.ToString("0.00");	
+			gui.GetComponent<TextMesh> ().text = "FIM!\nTempo total:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\nDistancia: " + totalDistance.ToString("0.00");	
 
 			if(PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
 				PlayerInfo.currentPlayer.free += 1;
@@ -196,6 +192,17 @@ public class CameraMovementScript : MonoBehaviour {
 			PlayerDAO.updatePlayer(PlayerInfo.currentPlayer);
 
 			Application.LoadLevel("finalstatistic");
+		}
+
+		if (InputOutput.paused) {
+			if (startTime < 0) {
+				gui.GetComponent<TextMesh> ().text = "Levante\nas duas\nmaos para sair";
+				if (InputOutput.quit) {
+					Application.LoadLevel ("menu");
+				}
+			} else {
+				gui.GetComponent<TextMesh> ().text = "Segure os\ndois guidaos\npara começar";
+			}
 		}
 
 		// FIXME: More elegant solution
