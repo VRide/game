@@ -176,4 +176,12 @@ public class InputOutput {
 	public static int[] getVelocities() {
 		return velocities;
 	}
+
+	public static List<int> getElectrodermalActivities(){
+		return electrodermalActivities;
+	}
+
+	public static List<int> getHeartRates(){
+			return heartRates;
+	}
 }

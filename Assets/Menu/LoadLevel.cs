@@ -3,6 +3,7 @@ using System.Collections;
 
 public class LoadLevel : MonoBehaviour{
 	public int timeOver = 3;
+	public string level;
 
 	private int timeRemaining;
 	
@@ -30,7 +31,7 @@ public class LoadLevel : MonoBehaviour{
 	}
 	
 	private void invokeNextPanel(){
-		Application.LoadLevel("menu");
+		Application.LoadLevel(level);
 	}
 }
 

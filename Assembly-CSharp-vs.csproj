@@ -91,6 +91,7 @@
      <Compile Include="Assets\Menu\AccountSelect.cs" />
      <Compile Include="Assets\Menu\CountLaps.cs" />
      <Compile Include="Assets\Menu\IgnoreRaycast.cs" />
+     <Compile Include="Assets\Menu\LoadLevel.cs" />
      <Compile Include="Assets\Menu\LookInputModule.cs" />
      <Compile Include="Assets\Menu\MenuController.cs" />
      <Compile Include="Assets\Menu\WeightHeight.cs" />
@@ -114,10 +115,12 @@
      <Compile Include="Assets\SimpleCloudSystem by RM\SceneComponents\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
      <Compile Include="Assets\SkyScript.cs" />
      <Compile Include="Assets\Statistics\EmulateValues.cs" />
-     <Compile Include="Assets\Statistics\GenerateGraphics.cs" />
+     <Compile Include="Assets\Statistics\FinalImageScript.cs" />
      <Compile Include="Assets\Statistics\ImageScript.cs" />
+     <Compile Include="Assets\Statistics\ResumeScript.cs" />
      <Compile Include="Assets\Storage\DatabaseSingleton.cs" />
      <Compile Include="Assets\Storage\Measure.cs" />
+     <Compile Include="Assets\Storage\MeasureDAO.cs" />
      <Compile Include="Assets\Storage\Player.cs" />
      <Compile Include="Assets\Storage\PlayerDAO.cs" />
      <Compile Include="Assets\ThighScript.cs" />
@@ -141,10 +144,10 @@
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="system.drawing">
- <HintPath>C:/Users/JoseRenato/game/Assets/Statistics/system.drawing.dll</HintPath>
+ <HintPath>C:/Users/mateus/Documents/game/Assets/Statistics/system.drawing.dll</HintPath>
  </Reference>
  <Reference Include="iBoxDB.NET2">
- <HintPath>C:/Users/JoseRenato/game/Assets/Storage/iBoxDB.NET2.dll</HintPath>
+ <HintPath>C:/Users/mateus/Documents/game/Assets/Storage/iBoxDB.NET2.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

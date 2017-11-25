@@ -11,6 +11,7 @@ public class FinalImageScript : MonoBehaviour
 		private const int width = 2000;
 		private const int height = 1000;
 		private const int widthPen = 20;
+		private int[] values;
 		
 		public int scale;
 		
@@ -19,19 +20,17 @@ public class FinalImageScript : MonoBehaviour
 		public void drawLines(Bitmap bmp){
 			Pen blackPen = new Pen(System.Drawing.Color.Black, widthPen);
 			
-			//int [] velocity_values = InputOutput.getVelocities ();
-			int[] velocity_values = new int[] {0, 14, 15, 26, 18, 19, 24, 56};
-			
 			using (var graphics = System.Drawing.Graphics.FromImage(bmp)) {				
-					int rounds = Convert.ToInt32 (velocity_values.Length);
+					int rounds = Convert.ToInt32 (values.Length);
 					int x = width / rounds;
 					int j = 0, max = 0, min = height;
 					int last = 0;
-					for (int i=0; i<velocity_values.Length; i++) {
-						graphics.DrawLine (blackPen, x * j, height-(last*scale), x * (j + 1), height-(velocity_values [i]*scale));
-						last = velocity_values [i];
-						max = Math.Max(max, velocity_values[i]);
-						min = Math.Min(min, velocity_values[i]);
+
+					for (int i=0; i<values.Length; i++) {
+						graphics.DrawLine (blackPen, x * j, height-(last*scale), x * (j + 1), height-(values [i]*scale));
+						last = values [i];
+						max = Math.Max(max, values[i]);
+						min = Math.Min(min, values[i]);
 						j++;
 
 					}
@@ -73,6 +72,16 @@ public class FinalImageScript : MonoBehaviour
 		}
 		
 		void Start () {
+			string filename = gameObject.name;
+
+			if (filename == "ImageVelocity")
+					values = InputOutput.getVelocities ();
+			else if (filename == "ImageElectrodermal")
+					values = InputOutput.getElectrodermalActivities ().ToArray();
+			else if (filename == "ImageElectrodermal")
+					values = InputOutput.getHeartRates ().ToArray();
+			
+
 			try{
 				Bitmap image = (Bitmap) new Bitmap(width, height);
 				
@@ -84,7 +93,6 @@ public class FinalImageScript : MonoBehaviour
 				
 				drawLines(image);
 				
-				string filename = gameObject.name;
 				if(System.IO.File.Exists(@"Assets\Statistics\" + filename + ".png"))
 					System.IO.File.Delete(@"Assets\Statistics\" + filename + ".png");
 				
