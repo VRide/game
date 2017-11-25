@@ -23,8 +23,8 @@ public class WeightHeight : MonoBehaviour {
 
 	public void countDown(){
 		timeRemaining--;
-		
-		if(timeRemaining <= 0 && label.Length > 0){
+
+		if(timeRemaining <= 0){
 			timeRemaining = timeOver;
 			defineLabel();
 		}
@@ -40,7 +40,6 @@ public class WeightHeight : MonoBehaviour {
 	}
 
 	private void defineLabel(){
-
 		if (gameObject.name == "Delete"){
 			int tam = label.Length;
 			if(tam != 0)

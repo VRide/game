@@ -12,7 +12,6 @@ public class InputOutput {
 
 	// public const int maxHeartRate = 200;
 	// public const int maxElectrodermalActivity = 100;
-	public const int maxVelocity = 40;
 
 	private static float guidonRotation = 0f;
 	public static float velocity {get; private set;}
@@ -27,7 +26,7 @@ public class InputOutput {
 	private static GameObject bike;
 	private static MqttClient client;
 
-	private static int[] velocities = new int[maxVelocity];
+	private static List<int> velocities;
 	private static List<int> electrodermalActivities;
 	private static List<int> heartRates;
 
@@ -42,7 +41,7 @@ public class InputOutput {
 
 		electrodermalActivities = new List<int> ();
 		heartRates = new List<int> ();
-		Array.Clear(velocities, 0, maxVelocity);
+		velocities = new List<int> ();
 
 		client = new MqttClient(IPAddress.Parse("127.0.0.1"), 1883 , false , null ); 
 		client.Connect("vride-7qx45t");
@@ -103,7 +102,8 @@ public class InputOutput {
 
 		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
 
-		velocities[Convert.ToInt32(velocity)]++;
+
+		velocities.Add(Convert.ToInt32(velocity));
 
 		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
 
@@ -151,28 +151,27 @@ public class InputOutput {
 
 	public static void Data(){
 		Measure velocity = calculateMeasure(new List<int> (velocities), (int)Measure.Type.Velocity);
-		Measure heartRate = calculateMeasure (heartRates, (int)Measure.Type.HeartRate);
-		Measure electrodermalActivity = calculateMeasure (electrodermalActivities, (int)Measure.Type.ElectrodermalActivity);  
+		//Measure heartRate = calculateMeasure (heartRates, (int)Measure.Type.HeartRate);
+		//Measure electrodermalActivity = calculateMeasure (electrodermalActivities, (int)Measure.Type.ElectrodermalActivity);  
 
 		MeasureDAO.createMeasure (velocity);
-		MeasureDAO.createMeasure (heartRate);
-		MeasureDAO.createMeasure (electrodermalActivity);
+		//MeasureDAO.createMeasure (heartRate);
+		//MeasureDAO.createMeasure (electrodermalActivity);
 	}
 
 	public static Measure calculateMeasure (List<int> list, int type){
 		int max = 0, min = 99999;
-		long sum = 0, n = 0;
+		long sum = 0;
 
 		for (int i = 1; i < list.Count; ++i) {
-			n += list [i] == 0? 0: 1;
-			sum += list [i] * i;
+			sum += list [i];
 			min = Math.Min (min, Convert.ToInt32 (list [i]));
 			max = Math.Max (max, Convert.ToInt32 (list [i]));
 		}
 
 		int track = PlayerInfo.currentPlayer.free + PlayerInfo.currentPlayer.running; 
 
-		return new Measure (track, type, max, min, Convert.ToInt32 (sum / n), PlayerInfo.currentPlayer.id);
+		return new Measure (track, type, max, min, Convert.ToInt32 (sum / list.Count), PlayerInfo.currentPlayer.id);
 	}
 
 	public static void Unlock(){
@@ -187,7 +186,7 @@ public class InputOutput {
 		return velocity;
 	}
 
-	public static int[] getVelocities() {
+	public static List<int> getVelocities() {
 		return velocities;
 	}
 

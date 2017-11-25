@@ -10,7 +10,7 @@ public class ImageScript : MonoBehaviour {
 	private const int width = 2000;
 	private const int height = 1000;
 	private const int widthPen = 20;
-	private const int measureQuantity = 3;
+	private const int measureQuantity = 1;
 
 	public int scale;
 
@@ -25,7 +25,7 @@ public class ImageScript : MonoBehaviour {
 
 		using(var graphics = System.Drawing.Graphics.FromImage(bmp)){
 			long count = DatabaseSingleton.Instance.db.SelectCount("from Measure where playerId==?", Convert.ToInt64(playerId));
-		
+
 			int rounds = (Convert.ToInt32(count)/measureQuantity);
 			int x = width/rounds;
 			int j = 0, max = 0, min = 0, average = 0;
@@ -36,7 +36,7 @@ public class ImageScript : MonoBehaviour {
 				int x2 = x*(j+1);
 				int y2 = height - (i.average * scale);
 				average = Math.Max(average, i.average);
-
+				Debug.Log("Average " + i.average);
 				int x3 = x*j;
 				int y3 = height - (last.min * scale);
 				int x4 = x*(j+1);

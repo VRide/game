@@ -22,10 +22,10 @@ public class FinalImageScript : MonoBehaviour
 			
 			using (var graphics = System.Drawing.Graphics.FromImage(bmp)) {				
 					int rounds = Convert.ToInt32 (values.Length);
-					int x = width / rounds;
+					float x = (float)width / (float)rounds;
 					int j = 0, max = 0, min = height;
 					int last = 0;
-
+					print(x);
 					for (int i=0; i<values.Length; i++) {
 						graphics.DrawLine (blackPen, x * j, height-(last*scale), x * (j + 1), height-(values [i]*scale));
 						last = values [i];
@@ -34,12 +34,12 @@ public class FinalImageScript : MonoBehaviour
 						j++;
 
 					}
-					drawReferPoints(bmp, max, min, x);
+					drawReferPoints(bmp, max, min);
 			}
 			
 		}
 		
-		public void drawReferPoints(Bitmap bmp, int max, int min ,int xStep) {
+		public void drawReferPoints(Bitmap bmp, int max, int min) {
 			Pen grayPen = new Pen(System.Drawing.Color.Gray, 1); 
 			
 			using (var graphics = System.Drawing.Graphics.FromImage(bmp)) {
@@ -58,15 +58,6 @@ public class FinalImageScript : MonoBehaviour
 				drawPoint = new PointF(5F, (float)height-(max * scale));
 				graphics.DrawString(drawString, drawFont, drawBrush, drawPoint);
 				graphics.DrawLine(grayPen, 0F, y, width, y);
-				
-				if(xStep < 10) xStep = 10;
-				
-				for(int i = xStep; i <= width; i+= xStep){
-					drawString = Convert.ToString(i/xStep);
-					drawPoint = new PointF((float)i, 40F);
-					graphics.DrawString(drawString, drawFont, drawBrush, drawPoint);
-					graphics.DrawLine(grayPen, i, 0F, i, height);
-				}
 			}
 			
 		}
@@ -75,7 +66,7 @@ public class FinalImageScript : MonoBehaviour
 			string filename = gameObject.name;
 
 			if (filename == "ImageVelocity")
-					values = InputOutput.getVelocities ();
+			values = InputOutput.getVelocities ().ToArray();
 			else if (filename == "ImageElectrodermal")
 					values = InputOutput.getElectrodermalActivities ().ToArray();
 			else if (filename == "ImageElectrodermal")

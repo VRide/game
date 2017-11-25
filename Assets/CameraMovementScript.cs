@@ -104,7 +104,7 @@ public class CameraMovementScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//TODO: remover
-		PlayerInfo.mode = this.mode;
+		//PlayerInfo.mode = this.mode;
 
 		totalDistance = 0f;
 		maxDistance = 0f;
@@ -121,7 +121,7 @@ public class CameraMovementScript : MonoBehaviour {
 		audio.Play ();
 		laps = 1;
 		time = 1;
-		totalLaps = 3 + PlayerInfo.laps;
+		totalLaps = PlayerInfo.laps;
 	}
 
 	void Reset() {
@@ -192,6 +192,8 @@ public class CameraMovementScript : MonoBehaviour {
 			PlayerInfo.currentPlayer.time += Convert.ToInt64(time);
 
 			PlayerDAO.updatePlayer(PlayerInfo.currentPlayer);
+
+			Application.LoadLevel("finalstatistic");
 		}
 
 		// FIXME: More elegant solution

@@ -11,8 +11,11 @@ public class ResumeScript : MonoBehaviour{
 		for (int i = 0; i < buttons.Length; ++i) {
 			string text = buttons [i].GetComponentInChildren<Text> ().text;
 
-			if(buttons[i].name == "InfoTime")
-				buttons [i].GetComponentInChildren<Text> ().text = Convert.ToString(PlayerInfo.currentPlayer.time) + "  " + text;
+			if(buttons[i].name == "InfoTime") {
+				System.TimeSpan t = System.TimeSpan.FromSeconds (PlayerInfo.currentPlayer.time);
+				buttons [i].GetComponentInChildren<Text> ().text = new System.DateTime(t.Ticks).ToString("mm:ss.f") + "  " + text;
+
+			}
 			else if(buttons[i].name == "InfoDistance")
 				buttons [i].GetComponentInChildren<Text> ().text = Convert.ToString(PlayerInfo.currentPlayer.distance) + "  " + text;
 			else if(buttons[i].name == "InfoFree")
