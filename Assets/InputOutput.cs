@@ -19,7 +19,6 @@ public class InputOutput {
 	public static float drag = 5f;
 	public static float acceleration = 8f;
 	private static bool is_pressing = false;
-	public static float maxSpeed = 30f;
 	private static bool locked = false;
 	public static bool paused;
 	public static bool quit;
@@ -49,7 +48,7 @@ public class InputOutput {
 		heartRates = new List<int> ();
 		velocities = new List<int> ();
 
-		client = new MqttClient(IPAddress.Parse("127.0.0.1"), 1883 , false , null ); 
+		client = new MqttClient(IPAddress.Parse("10.0.0.1"), 1883 , false , null ); 
 		client.Connect("vride-7qx45t");
 		
 		client.MqttMsgPublishReceived += client_MqttMsgPublishReceived; 
@@ -65,33 +64,31 @@ public class InputOutput {
 		guidonRotation = 0f;
 	}
 
+	static void P(Byte[] bs){
+		foreach (var b in bs) {
+			Debug.Log(b);
+		}
+	}
+
 	static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e){ 
 		Debug.Log ("Receiving " + e.Topic);
+		//string m = System.Text.Encoding.UTF8.GetString(e.Message);
+		string message = System.Text.Encoding.UTF8.GetString(e.Message);
+		Debug.Log ("Received on " + e.Topic + ": " + message);
 
-		//string m = System.Text.Encoding.UTF8.GetString(e.Message);	
-
-		//Debug.Log ("Received " + m + " on " + e.Topic);
 		if (e.Topic == "bike/velocity") {
-
-			string message = System.Text.Encoding.UTF8.GetString(e.Message);
-			if(message == "F"){
-				is_pressing = true;
-			}else if(message == "S"){
-				is_pressing = false;
+			if(message == "F" || message == "S"){
+				return;
 			}
-			//gameObject.transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed);
-		} else if (e.Topic == "bike/angle") {
-			Debug.Log(e.Message.ToString());
-			long angle = System.BitConverter.ToInt64 (e.Message, 0);
-			Debug.Log ("Recebeu bike/angle o valor de " + angle);
+			velocity = 0.0006f * Convert.ToInt64 (message) * 31.4159265358979f;
+		} else if (e.Topic == "bike/angle") {	
+			long angle = Convert.ToInt64 (message);
 			guidonRotation = angle;
 		}else if (e.Topic == "bike/hand/right") {
-			Debug.Log("Enter right hand");
-			bool hand = System.BitConverter.ToBoolean(e.Message, 0);
+			bool hand = (message == "1");
 			rightHand = hand;
 		}else if (e.Topic == "bike/hand/left") {
-			Debug.Log("Enter left hand");
-			bool hand = System.BitConverter.ToBoolean(e.Message, 0);
+			bool hand = (message == "1");
 			leftHand = hand;
 		}
 		/*
@@ -113,18 +110,18 @@ public class InputOutput {
 		paused = (!rightHand || !leftHand);
 		quit = (!rightHand && !leftHand);
 
-		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
+		//velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
 
 
 		velocities.Add(Convert.ToInt32(velocity));
 
-		if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
+		//if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
 
 		if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyUp(KeyCode.X))
-			client.Publish ("bike/hand/right", System.BitConverter.GetBytes (Input.GetKey (KeyCode.X)), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			client.Publish ("bike/hand/right", System.Text.Encoding.UTF8.GetBytes(Input.GetKey (KeyCode.X) ? "1" : "0"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 
 		if(Input.GetKeyDown(KeyCode.Z) || Input.GetKeyUp(KeyCode.Z))
-			client.Publish ("bike/hand/left", System.BitConverter.GetBytes (Input.GetKey (KeyCode.Z)), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			client.Publish ("bike/hand/left", System.Text.Encoding.UTF8.GetBytes(Input.GetKey (KeyCode.Z) ? "1" : "0"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 
 		timer += Time.deltaTime;
 		if (timer >= 0.050f) {
@@ -133,30 +130,34 @@ public class InputOutput {
 			return;
 		}
 
-		Debug.Log ("LOCKED: " + locked);
 		if (locked)
 			return;
+		Debug.Log ("LOCKED: " + locked);
 
 		long angle = 0;
+
 		if(Input.GetKey(KeyCode.LeftArrow)){
 			// guidonRotation = -45f;
 			angle = -45;
-			client.Publish("bike/angle", System.BitConverter.GetBytes(angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			client.Publish("bike/angle", System.Text.Encoding.UTF8.GetBytes("" + angle), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			// gameObject.transform.Rotate(new Vector3(0, -speed * Time.deltaTime, 0));
 		}else if(Input.GetKey(KeyCode.RightArrow)){
 			// guidonRotation = 45f;
 			angle = 45;
-			client.Publish("bike/angle", System.BitConverter.GetBytes(angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			client.Publish("bike/angle", System.Text.Encoding.UTF8.GetBytes("" + angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 			// gameObject.transform.Rotate(new Vector3(0, speed * Time.deltaTime, 0));
 		}else{
-			client.Publish("bike/angle", System.BitConverter.GetBytes(angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			client.Publish("bike/angle", System.Text.Encoding.UTF8.GetBytes("" + angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		}
 
+		/*
 		if (Input.GetKey (KeyCode.UpArrow)) {
-				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("F"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			Debug.Log("Ir pra frente");
+			client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("F"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		} else {
-				client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("S"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+			client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("S"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		}
+		*/
 
 	}
 
