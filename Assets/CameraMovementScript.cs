@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class CameraMovementScript : MonoBehaviour {
 
@@ -177,9 +178,20 @@ public class CameraMovementScript : MonoBehaviour {
 
 		if (finished) {
 			// FIXME: change to creating object
+			InputOutput.Data();
 			InputOutput.Lock();
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
 			gui.GetComponent<TextMesh> ().text = "FINISH!\nTotal time:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\nTotal distance: " + totalDistance.ToString("0.00");	
+
+			if(PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
+				PlayerInfo.currentPlayer.free += 1;
+			else if(PlayerInfo.mode == (int)PlayerInfo.Modes.Running)
+				PlayerInfo.currentPlayer.running += 1;
+
+			PlayerInfo.currentPlayer.distance += Convert.ToInt64(totalDistance);
+			PlayerInfo.currentPlayer.time += Convert.ToInt64(time);
+
+			PlayerDAO.updatePlayer(PlayerInfo.currentPlayer);
 		}
 
 		// FIXME: More elegant solution

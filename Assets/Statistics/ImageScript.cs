@@ -24,13 +24,13 @@ public class ImageScript : MonoBehaviour {
 		int playerId = Convert.ToInt32(PlayerInfo.currentPlayer.id);
 
 		using(var graphics = System.Drawing.Graphics.FromImage(bmp)){
-			long count = DatabaseSingleton.Instance.db.SelectCount("from Measure where playerId==?", Convert.ToInt64(1));
+			long count = DatabaseSingleton.Instance.db.SelectCount("from Measure where playerId==?", Convert.ToInt64(playerId));
 		
 			int rounds = (Convert.ToInt32(count)/measureQuantity);
 			int x = width/rounds;
 			int j = 0, max = 0, min = 0, average = 0;
 			Measure last = new Measure(0, 0, 0, 0, 0, 0);
-			foreach(var i in DatabaseSingleton.Instance.db.Select<Measure>("from Measure where playerId==? order by type", Convert.ToInt64(1))){
+			foreach(var i in DatabaseSingleton.Instance.db.Select<Measure>("from Measure where playerId==? order by type", Convert.ToInt64(playerId))){
 				int x1 = x*j;
 				int y1 = height - (last.average * scale);
 				int x2 = x*(j+1);

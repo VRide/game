@@ -37,10 +37,6 @@ public class CountLaps : MonoBehaviour {
 				}
 		} else if (gameObject.name == "RoundPlus")
 				PlayerInfo.laps++;
-		else if (gameObject.name == "Submit"){
-			print ("ENTROUUUUU");
-			Application.LoadLevel ("main");
-		}
 
 		Button buttonOne; 
 		buttonOne = GameObject.Find ("NumberTurns").GetComponentInChildren<Button> ();

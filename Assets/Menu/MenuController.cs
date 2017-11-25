@@ -44,12 +44,6 @@ public class MenuController : MonoBehaviour {
 		else if (parentPanel.name == "ChooseGender")
 			PlayerInfo.currentPlayer.gender = (int)Enum.Parse(typeof(Player.Gender), gameObject.name);
 
-		if(parentPanel.name == "ChooseTurn" && PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
-		{	
-			//carregarModoLivre 
-			print("colocar Modo Livre");
-		}
-
 		parentPanel.SetActive (false);
 		nextPanel.SetActive (true);
 	}
