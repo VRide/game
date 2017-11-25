@@ -39,8 +39,8 @@ public class InputOutput {
 	public static void Start () {
 		paused = false;
 		quit = false;
-		rightHand = true;
-		leftHand = true;
+		rightHand = false;
+		leftHand = false;
 		bike = GameObject.FindGameObjectWithTag("Player");
 		velocity = 0f;
 		timer = 0f;
@@ -67,7 +67,6 @@ public class InputOutput {
 
 	static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e){ 
 		Debug.Log ("Receiving " + e.Topic);
-		//if(locked) return;
 
 		//string m = System.Text.Encoding.UTF8.GetString(e.Message);	
 
@@ -133,6 +132,10 @@ public class InputOutput {
 		} else {
 			return;
 		}
+
+		Debug.Log ("LOCKED: " + locked);
+		if (locked)
+			return;
 
 		long angle = 0;
 		if(Input.GetKey(KeyCode.LeftArrow)){

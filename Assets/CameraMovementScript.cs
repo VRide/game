@@ -7,6 +7,7 @@ public class CameraMovementScript : MonoBehaviour {
 	// TODO: remover
 	public int mode;
 	public int turn;
+	public bool test;
 
 	public float speed;
 	public float forwardSpeed = 0f;
@@ -105,8 +106,10 @@ public class CameraMovementScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//TODO: remover
-		PlayerInfo.mode = this.mode;
-		PlayerInfo.turn = this.turn;
+		if (test) {
+			PlayerInfo.mode = this.mode;
+			PlayerInfo.turn = this.turn;
+		}
 
 		totalDistance = 0f;
 		maxDistance = 0f;
@@ -120,6 +123,7 @@ public class CameraMovementScript : MonoBehaviour {
 		laps = 1;
 		time = 1;
 		totalLaps = PlayerInfo.laps;
+		if (test) totalLaps++;
 	}
 
 	void Reset() {
@@ -176,29 +180,17 @@ public class CameraMovementScript : MonoBehaviour {
 
 		if (finished) {
 			// FIXME: change to creating object
-			InputOutput.Data();
 			InputOutput.Lock();
+			
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
 			gui.GetComponent<TextMesh> ().text = "FIM!\nTempo total:\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\nDistancia: " + totalDistance.ToString("0.00");	
-
-			if(PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
-				PlayerInfo.currentPlayer.free += 1;
-			else if(PlayerInfo.mode == (int)PlayerInfo.Modes.Running)
-				PlayerInfo.currentPlayer.running += 1;
-
-			PlayerInfo.currentPlayer.distance += Convert.ToInt64(totalDistance);
-			PlayerInfo.currentPlayer.time += Convert.ToInt64(time);
-
-			PlayerDAO.updatePlayer(PlayerInfo.currentPlayer);
-
-			Application.LoadLevel("finalstatistic");
 		}
 
 		if (InputOutput.paused) {
 			if (startTime < 0) {
 				gui.GetComponent<TextMesh> ().text = "Levante\nas duas\nmaos para sair";
 				if (InputOutput.quit) {
-					Application.LoadLevel ("menu");
+					Finish ();
 				}
 			} else {
 				gui.GetComponent<TextMesh> ().text = "Segure os\ndois guidaos\npara começar";
@@ -219,5 +211,21 @@ public class CameraMovementScript : MonoBehaviour {
 		if(angle >= 45f && angle <= 315f){
 			Reset();
 		}
+	}
+
+	void Finish(){
+		InputOutput.Data();
+		
+		if(PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
+			PlayerInfo.currentPlayer.free += 1;
+		else if(PlayerInfo.mode == (int)PlayerInfo.Modes.Running)
+			PlayerInfo.currentPlayer.running += 1;
+		
+		PlayerInfo.currentPlayer.distance += Convert.ToInt64(totalDistance);
+		PlayerInfo.currentPlayer.time += Convert.ToInt64(time);
+		
+		PlayerDAO.updatePlayer(PlayerInfo.currentPlayer);
+		
+		Application.LoadLevel("finalstatistic");
 	}
 }

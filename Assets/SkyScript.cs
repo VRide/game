@@ -25,7 +25,7 @@ public class SkyScript : MonoBehaviour {
 		moon = GameObject.Find("Moon");
 		streetlightGroup = GameObject.Find ("Streetlight Group");
 		streetLights = streetlightGroup.GetComponentsInChildren<Light>();
-		directionalLight = GameObject.FindGameObjectWithTag("directionalLight");
+		directionalLight = GameObject.Find("Directional light");
 		fenceGroup = GameObject.Find("Run Fence Group");
 		goalRoad = GameObject.Find("goal road prefab");
 		humanCheer = GameObject.Find ("HumanCheer");
@@ -62,6 +62,7 @@ public class SkyScript : MonoBehaviour {
 	}
 
 	void Night(){
+		Debug.Log ("Entrou NIGHT");
 		stars.SetActive (true);
 		foreach (Light light in streetLights){
 			Debug.Log (light);
@@ -71,7 +72,8 @@ public class SkyScript : MonoBehaviour {
 		
 		sun.SetActive (false);
 		cloud.SetActive (false);
-		directionalLight.SetActive (false);
+		Debug.Log ("Desativou");
+		directionalLight.GetComponent<Light> ().intensity = 0.2f;
 	}
 
 
