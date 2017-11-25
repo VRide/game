@@ -6,6 +6,7 @@ public class CameraMovementScript : MonoBehaviour {
 
 	// TODO: remover
 	public int mode;
+	public int turn;
 
 	public float speed;
 	public float forwardSpeed = 0f;
@@ -104,7 +105,8 @@ public class CameraMovementScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//TODO: remover
-		//PlayerInfo.mode = this.mode;
+		PlayerInfo.mode = this.mode;
+		PlayerInfo.turn = this.turn;
 
 		totalDistance = 0f;
 		maxDistance = 0f;

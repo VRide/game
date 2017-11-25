@@ -26,32 +26,28 @@ public class SkyScript : MonoBehaviour {
 		streetlightGroup = GameObject.Find ("Streetlight Group");
 		streetLights = streetlightGroup.GetComponentsInChildren<Light>();
 		directionalLight = GameObject.FindGameObjectWithTag("directionalLight");
-		fenceGroup = GameObject.Find("Inner Fence Group");
+		fenceGroup = GameObject.Find("Run Fence Group");
 		goalRoad = GameObject.Find("goal road prefab");
 		humanCheer = GameObject.Find ("HumanCheer");
 		fence = GameObject.FindGameObjectWithTag("ee");
 		
 
 		if (PlayerInfo.mode == (int)PlayerInfo.Modes.Free) {
-			FreeAfternoon();
-		} else if (PlayerInfo.turn == (int)PlayerInfo.Turns.Day) {
+			Free();
+		}
+
+		if (PlayerInfo.turn == (int)PlayerInfo.Turns.Day) {
 			Day ();
 		} else if (PlayerInfo.turn == (int)PlayerInfo.Turns.Night) {
 			Night ();
 		}
 	}
 
-	void FreeAfternoon() {
-		directionalLight.transform.rotation = Quaternion.Euler (new Vector3(20, 0, 90));
-		directionalLight.GetComponent<Light> ().color = new Color(1F, 0.3921F, 0F, 1F);
-		directionalLight.GetComponent<Light> ().intensity = 2f;
-		stars.SetActive (false);
-		moon.SetActive (false);
+	void Free() {
 		fenceGroup.SetActive (false);
 		goalRoad.SetActive (false);
 		humanCheer.SetActive (false);
 		fence.collider.isTrigger = true;
-
 	}
 
 	void Day(){
@@ -63,7 +59,6 @@ public class SkyScript : MonoBehaviour {
 
 		sun.SetActive (true);
 		cloud.SetActive (true);
-		directionalLight.SetActive (true);
 	}
 
 	void Night(){
