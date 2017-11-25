@@ -20,6 +20,10 @@ public class Player {
 
 	public Player(int id){
 		this.id = Convert.ToInt64(id);
+		this.time = 0;
+		this.distance = 0;
+		this.free = 0;
+		this.running = 0;
 	}
 
 	public Player(int id, string name, int height, int weight, int gender){
@@ -28,6 +32,10 @@ public class Player {
 		this.height = height;
 		this.weight = weight;
 		this.gender = gender;
+		this.time = 0;
+		this.distance = 0;
+		this.free = 0;
+		this.running = 0;
 	}
 }
 
