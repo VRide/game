@@ -1,16 +1,27 @@
 using System;
 
 public class Measure {
-	int max;
-	int min;
-	int average;
+
+	public enum Type { Velocity, HeartRate, ElectrodermalActivity }
+
+	public long id; 
+	public long track;
+	public int type;
+	public int max;
+	public int min;
+	public int average;
+	public long playerId;
 
 	public Measure(){}
 	
-	public Measure(int max, int min, int average){
+	public Measure(long track, int type, int max, int min, int average, long playerId){
+		this.id = MeasureDAO.generateId ();
+		this.track = track;
+		this.type = type;
 		this.max = max;
 		this.min = min;
 		this.average = average;
+		this.playerId = playerId;
 	}
 
 }

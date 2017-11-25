@@ -91,6 +91,7 @@
      <Compile Include="Assets\Menu\AccountSelect.cs" />
      <Compile Include="Assets\Menu\CountLaps.cs" />
      <Compile Include="Assets\Menu\IgnoreRaycast.cs" />
+     <Compile Include="Assets\Menu\LoadLevel.cs" />
      <Compile Include="Assets\Menu\LookInputModule.cs" />
      <Compile Include="Assets\Menu\MenuController.cs" />
      <Compile Include="Assets\Menu\WeightHeight.cs" />
@@ -113,9 +114,13 @@
      <Compile Include="Assets\PlayerInfo.cs" />
      <Compile Include="Assets\SimpleCloudSystem by RM\SceneComponents\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
      <Compile Include="Assets\SkyScript.cs" />
+     <Compile Include="Assets\Statistics\EmulateValues.cs" />
+     <Compile Include="Assets\Statistics\FinalImageScript.cs" />
      <Compile Include="Assets\Statistics\ImageScript.cs" />
+     <Compile Include="Assets\Statistics\ResumeScript.cs" />
      <Compile Include="Assets\Storage\DatabaseSingleton.cs" />
      <Compile Include="Assets\Storage\Measure.cs" />
+     <Compile Include="Assets\Storage\MeasureDAO.cs" />
      <Compile Include="Assets\Storage\Player.cs" />
      <Compile Include="Assets\Storage\PlayerDAO.cs" />
      <Compile Include="Assets\ThighScript.cs" />

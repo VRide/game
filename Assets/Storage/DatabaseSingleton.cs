@@ -18,7 +18,9 @@ public class DatabaseSingleton {
 			DB.Root(Application.persistentDataPath);
 			
 			server = new DB(3);
-			server.GetConfig().EnsureTable<Player>("Player", "id");	
+			server.GetConfig().EnsureTable<Player>("Player", "id");
+			server.GetConfig().EnsureTable<Measure>("Measure", "id");
+			server.GetConfig().EnsureIndex<Measure>("Measure", "playerId");
 			db = server.Open();
 		}
 	}
