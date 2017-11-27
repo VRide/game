@@ -114,8 +114,6 @@ public class CameraMovementScript : MonoBehaviour {
 		totalDistance = 0f;
 		maxDistance = 0f;
 		lastDistance = gameObject.transform.position;
-		InputOutput.Start ();
-		InputOutput.Lock ();
 		startTime = 2.99f;	
 		audio = gameObject.GetComponents<AudioSource> ()[0];
 		hitAudio = gameObject.GetComponents<AudioSource> ()[1];
@@ -124,6 +122,8 @@ public class CameraMovementScript : MonoBehaviour {
 		time = 1;
 		totalLaps = PlayerInfo.laps;
 		if (test) totalLaps++;
+		InputOutput.Start ();
+		InputOutput.Lock ();
 	}
 
 	void Reset() {
@@ -166,7 +166,6 @@ public class CameraMovementScript : MonoBehaviour {
 				float currentDistance = Vector3.Distance(gameObject.transform.position, lastDistance);
 				totalDistance += currentDistance;
 				if(currentDistance > maxDistance) maxDistance = currentDistance;
-				Debug.Log(maxDistance);
 				lastDistance = gameObject.transform.position;
 				time += (float) System.Math.Round (Time.deltaTime, 2);
 				InputOutput.Unlock();

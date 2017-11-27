@@ -15,10 +15,10 @@ public class InputOutput {
 
 	private static float guidonRotation = 0f;
 	public static float velocity {get; private set;}
+	public static float respiration {get; private set;}
 	private static float bikeXAxis = 0f;
 	public static float drag = 5f;
 	public static float acceleration = 8f;
-	private static bool is_pressing = false;
 	private static bool locked = false;
 	public static bool paused;
 	public static bool quit;
@@ -27,6 +27,7 @@ public class InputOutput {
 
 	private static GameObject bike;
 	private static MqttClient client;
+	private static bool mqtt;
 
 	private static List<int> velocities;
 	private static List<int> electrodermalActivities;
@@ -48,15 +49,22 @@ public class InputOutput {
 		heartRates = new List<int> ();
 		velocities = new List<int> ();
 
-		client = new MqttClient(IPAddress.Parse("10.0.0.1"), 1883 , false , null ); 
-		client.Connect("vride-7qx45t");
-		
-		client.MqttMsgPublishReceived += client_MqttMsgPublishReceived; 
+		try{
+			client = new MqttClient(IPAddress.Parse("10.0.0.1"), 1883 , false , null ); 
+			client.Connect("vride-7qx45t");
+			
+			client.MqttMsgPublishReceived += client_MqttMsgPublishReceived; 
 
-		client.Subscribe(new string[] { "bike/angle" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
-		client.Subscribe(new string[] { "bike/velocity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
-		client.Subscribe(new string[] { "bike/hand/right" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
-		client.Subscribe(new string[] { "bike/hand/left" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+			client.Subscribe(new string[] { "bike/angle" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+			client.Subscribe(new string[] { "bike/velocity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+			client.Subscribe(new string[] { "bike/hand/right" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+			client.Subscribe(new string[] { "bike/hand/left" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+			client.Subscribe(new string[] { "user/respiration" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
+			mqtt = true;
+		} catch(System.Exception e){
+			mqtt = false;	
+		}
 	}
 
 	public static void Reset(){
@@ -77,25 +85,21 @@ public class InputOutput {
 		Debug.Log ("Received on " + e.Topic + ": " + message);
 
 		if (e.Topic == "bike/velocity") {
-			if(message == "F" || message == "S"){
-				return;
-			}
 			velocity = 0.0006f * Convert.ToInt64 (message) * 31.4159265358979f;
-		} else if (e.Topic == "bike/angle") {	
+		} /*else if (e.Topic == "bike/angle") {	
 			long angle = Convert.ToInt64 (message);
 			guidonRotation = angle;
-		}else if (e.Topic == "bike/hand/right") {
+		} else if (e.Topic == "bike/hand/right") {
 			bool hand = (message == "1");
 			rightHand = hand;
 		}else if (e.Topic == "bike/hand/left") {
 			bool hand = (message == "1");
 			leftHand = hand;
-		}
-		/*
-		else if (e.Topic == "bike/heart") {
+		} */
+		else if (e.Topic == "bike/respiration") {
 			int rate = System.BitConverter.ToInt64 (e.Message, 0);
 			heartRates.Add(rate);
-		} else if (e.Topic == "bike/electrodermal") {
+		} /*else if (e.Topic == "bike/electrodermal") {
 			int activity = System.BitConverter.ToInt64 (e.Message, 0);
 			electrodermalActivities.Add(activity);
 		}
@@ -110,44 +114,18 @@ public class InputOutput {
 		paused = (!rightHand || !leftHand);
 		quit = (!rightHand && !leftHand);
 
-		//velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, maxSpeed);
-
+		if (mqtt)
+			MqttUpdate ();
+		else
+			TestUpdate ();
 
 		velocities.Add(Convert.ToInt32(velocity));
-
-		//if(is_pressing) velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, maxSpeed);
-
-		if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyUp(KeyCode.X))
-			client.Publish ("bike/hand/right", System.Text.Encoding.UTF8.GetBytes(Input.GetKey (KeyCode.X) ? "1" : "0"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-
-		if(Input.GetKeyDown(KeyCode.Z) || Input.GetKeyUp(KeyCode.Z))
-			client.Publish ("bike/hand/left", System.Text.Encoding.UTF8.GetBytes(Input.GetKey (KeyCode.Z) ? "1" : "0"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 
 		timer += Time.deltaTime;
 		if (timer >= 0.050f) {
 			timer = 0;
 		} else {
 			return;
-		}
-
-		if (locked)
-			return;
-		Debug.Log ("LOCKED: " + locked);
-
-		long angle = 0;
-
-		if(Input.GetKey(KeyCode.LeftArrow)){
-			// guidonRotation = -45f;
-			angle = -45;
-			client.Publish("bike/angle", System.Text.Encoding.UTF8.GetBytes("" + angle), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-			// gameObject.transform.Rotate(new Vector3(0, -speed * Time.deltaTime, 0));
-		}else if(Input.GetKey(KeyCode.RightArrow)){
-			// guidonRotation = 45f;
-			angle = 45;
-			client.Publish("bike/angle", System.Text.Encoding.UTF8.GetBytes("" + angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-			// gameObject.transform.Rotate(new Vector3(0, speed * Time.deltaTime, 0));
-		}else{
-			client.Publish("bike/angle", System.Text.Encoding.UTF8.GetBytes("" + angle) , MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 		}
 
 		/*
@@ -161,9 +139,41 @@ public class InputOutput {
 
 	}
 
+	private static void MqttUpdate(){
+		int elevation = Mathf.RoundToInt(bike.transform.rotation.x);
+		Debug.Log (elevation);
+	}
+
+	private static void TestUpdate(){
+		rightHand = Input.GetKey (KeyCode.X);
+		leftHand = Input.GetKey (KeyCode.Z);
+		//leftHand = Input.GetKey (KeyCode.X);
+
+		if(Input.GetKey(KeyCode.LeftArrow))
+			guidonRotation = -45;
+		else if(Input.GetKey(KeyCode.RightArrow))
+			guidonRotation = 45;
+		else
+			guidonRotation = 0;
+
+		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, 30f);
+		if (Input.GetKey (KeyCode.UpArrow)) {
+			Debug.Log ("Up apertando");
+			velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, 30f);
+		}
+	}
+
 	public static void Lock(){
-		is_pressing = false;
 		locked = true;
+		guidonRotation = 0;
+		drag = 15f;
+		Debug.Log ("Lock()");
+	}
+
+	public static void Unlock(){
+		locked = false;
+		drag = 5f;
+		Debug.Log ("Unlock()");
 	}
 
 	public static void Data(){
@@ -189,10 +199,6 @@ public class InputOutput {
 		int track = PlayerInfo.currentPlayer.free + PlayerInfo.currentPlayer.running; 
 
 		return new Measure (track, type, max, min, Convert.ToInt32 (sum / list.Count), PlayerInfo.currentPlayer.id);
-	}
-
-	public static void Unlock(){
-		locked = false;
 	}
 	
 	public static float GetGuidonRotation() {
