@@ -25,6 +25,10 @@ public class InputOutput {
 	public static bool rightHand;
 	public static bool leftHand;
 
+	private static int quantity =0;
+	private static long sum = 0;
+	private static float constant = 0.0006f * 31.4159265358979f;
+	private static float standard_deviation = 0f;
 	private static GameObject bike;
 	private static MqttClient client;
 	private static bool mqtt;
@@ -85,8 +89,16 @@ public class InputOutput {
 		Debug.Log ("Received on " + e.Topic + ": " + message);
 
 		if (e.Topic == "bike/velocity") {
-			velocity = 0.0006f * Convert.ToInt64 (message) * 31.4159265358979f;
-		} /*else if (e.Topic == "bike/angle") {	
+			sum += Convert.ToInt64 (message);
+			quantity++;
+			if(quantity == 5){
+				standard_deviation = sum/5f;
+				sum = 0;
+				quantity = 0;
+			}
+			Debug.Log(standard_deviation);
+			velocity =  (Convert.ToInt64 (message) + standard_deviation) * constant;
+		}/*else if (e.Topic == "bike/angle") {	
 			long angle = Convert.ToInt64 (message);
 			guidonRotation = angle;
 		} else if (e.Topic == "bike/hand/right") {
@@ -95,15 +107,17 @@ public class InputOutput {
 		}else if (e.Topic == "bike/hand/left") {
 			bool hand = (message == "1");
 			leftHand = hand;
-		} */
+		} 
 		else if (e.Topic == "bike/respiration") {
-			int rate = System.BitConverter.ToInt64 (e.Message, 0);
+			int rate = Convert.ToInt32 (e.Message);
 			heartRates.Add(rate);
 		} /*else if (e.Topic == "bike/electrodermal") {
 			int activity = System.BitConverter.ToInt64 (e.Message, 0);
 			electrodermalActivities.Add(activity);
 		}
 		*/
+		rightHand = true;
+		leftHand = true;
 	} 
 	
 	// Update is called once per frame
