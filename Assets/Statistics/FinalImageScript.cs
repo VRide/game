@@ -66,11 +66,11 @@ public class FinalImageScript : MonoBehaviour
 			string filename = gameObject.name;
 
 			if (filename == "ImageVelocity")
-			values = InputOutput.getVelocities ().ToArray();
+				values = InputOutput.getVelocities ().ToArray();
 			else if (filename == "ImageElectrodermal")
-					values = InputOutput.getElectrodermalActivities ().ToArray();
-			else if (filename == "ImageElectrodermal")
-					values = InputOutput.getHeartRates ().ToArray();
+				values = InputOutput.getElectrodermalActivities ().ToArray();
+			else if (filename == "ImageHeart")
+				values = InputOutput.getHeartRates ().ToArray();
 			
 
 			try{

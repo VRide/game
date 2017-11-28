@@ -174,7 +174,7 @@ public class CameraMovementScript : MonoBehaviour {
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
 			string s_laps = (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) ? laps + "/" + totalLaps : "MODO LIVRE";
 			
-			gui.GetComponent<TextMesh> ().text = "" + s_laps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00") + "\n" +  totalDistance.ToString("0.00");
+			gui.GetComponent<TextMesh> ().text = InputOutput.respiration + "\n\n" + s_laps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00") + "\n" +  totalDistance.ToString("0.00");
 		}
 
 		if (finished) {
@@ -214,17 +214,18 @@ public class CameraMovementScript : MonoBehaviour {
 
 	void Finish(){
 		InputOutput.Data();
-		
+
+		/*
 		if(PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
 			PlayerInfo.currentPlayer.free += 1;
 		else if(PlayerInfo.mode == (int)PlayerInfo.Modes.Running)
 			PlayerInfo.currentPlayer.running += 1;
-		
+
 		PlayerInfo.currentPlayer.distance += Convert.ToInt64(totalDistance);
 		PlayerInfo.currentPlayer.time += Convert.ToInt64(time);
 		
 		PlayerDAO.updatePlayer(PlayerInfo.currentPlayer);
-		
+		*/		
 		Application.LoadLevel("finalstatistic");
 	}
 }

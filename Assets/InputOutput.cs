@@ -15,7 +15,7 @@ public class InputOutput {
 
 	private static float guidonRotation = 0f;
 	public static float velocity {get; private set;}
-	public static float respiration {get; private set;}
+	public static int respiration {get; private set;}
 	private static float bikeXAxis = 0f;
 	public static float drag = 5f;
 	public static float acceleration = 8f;
@@ -98,26 +98,23 @@ public class InputOutput {
 			}
 			Debug.Log(standard_deviation);
 			velocity =  (Convert.ToInt64 (message) + standard_deviation) * constant;
-		}/*else if (e.Topic == "bike/angle") {	
+		} else if (e.Topic == "bike/angle") {	
 			long angle = Convert.ToInt64 (message);
 			guidonRotation = angle;
 		} else if (e.Topic == "bike/hand/right") {
 			bool hand = (message == "1");
 			rightHand = hand;
-		}else if (e.Topic == "bike/hand/left") {
+		} else if (e.Topic == "bike/hand/left") {
 			bool hand = (message == "1");
 			leftHand = hand;
-		} 
-		else if (e.Topic == "bike/respiration") {
-			int rate = Convert.ToInt32 (e.Message);
-			heartRates.Add(rate);
+		} else if (e.Topic == "user/respiration") {
+			respiration = Convert.ToInt32 (message);
+			heartRates.Add(respiration);
 		} /*else if (e.Topic == "bike/electrodermal") {
 			int activity = System.BitConverter.ToInt64 (e.Message, 0);
 			electrodermalActivities.Add(activity);
 		}
 		*/
-		rightHand = true;
-		leftHand = true;
 	} 
 	
 	// Update is called once per frame
@@ -160,8 +157,8 @@ public class InputOutput {
 
 	private static void TestUpdate(){
 		rightHand = Input.GetKey (KeyCode.X);
-		leftHand = Input.GetKey (KeyCode.Z);
-		//leftHand = Input.GetKey (KeyCode.X);
+		//leftHand = Input.GetKey (KeyCode.Z);
+		leftHand = Input.GetKey (KeyCode.X);
 
 		if(Input.GetKey(KeyCode.LeftArrow))
 			guidonRotation = -45;
@@ -192,11 +189,11 @@ public class InputOutput {
 
 	public static void Data(){
 		Measure velocity = calculateMeasure(new List<int> (velocities), (int)Measure.Type.Velocity);
-		//Measure heartRate = calculateMeasure (heartRates, (int)Measure.Type.HeartRate);
+		Measure heartRate = calculateMeasure (heartRates, (int)Measure.Type.HeartRate);
 		//Measure electrodermalActivity = calculateMeasure (electrodermalActivities, (int)Measure.Type.ElectrodermalActivity);  
 
 		MeasureDAO.createMeasure (velocity);
-		//MeasureDAO.createMeasure (heartRate);
+		MeasureDAO.createMeasure (heartRate);
 		//MeasureDAO.createMeasure (electrodermalActivity);
 	}
 
@@ -210,9 +207,10 @@ public class InputOutput {
 			max = Math.Max (max, Convert.ToInt32 (list [i]));
 		}
 
-		int track = PlayerInfo.currentPlayer.free + PlayerInfo.currentPlayer.running; 
-
-		return new Measure (track, type, max, min, Convert.ToInt32 (sum / list.Count), PlayerInfo.currentPlayer.id);
+		Debug.Log ("Sum " + sum + " List " + list.Count);
+		//int track = PlayerInfo.currentPlayer.free + PlayerInfo.currentPlayer.running; 
+		int track = 0;
+		return new Measure (track, type, max, min, Convert.ToInt32 (sum / list.Count), 0);
 	}
 	
 	public static float GetGuidonRotation() {
