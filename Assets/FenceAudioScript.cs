@@ -10,8 +10,6 @@ public class FenceAudioScript : MonoBehaviour {
 		
 	}
 	void OnCollisionEnter(Collision collision){
-		Debug.Log("cerca");
-		Debug.Log (audio.name);
 		audio.Play ();
 	}
 }

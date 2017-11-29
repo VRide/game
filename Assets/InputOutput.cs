@@ -26,6 +26,7 @@ public class InputOutput {
 	public static bool leftHand;
 
 	private static int quantity =0;
+	private static int oldElevation;
 	private static long sum = 0;
 	private static float constant = 0.0006f * 31.4159265358979f;
 	private static float standard_deviation = 0f;
@@ -45,7 +46,7 @@ public class InputOutput {
 		quit = false;
 		rightHand = false;
 		leftHand = false;
-		bike = GameObject.FindGameObjectWithTag("Player");
+		bike = GameObject.Find("Player");
 		velocity = 0f;
 		timer = 0f;
 
@@ -60,6 +61,7 @@ public class InputOutput {
 			client.MqttMsgPublishReceived += client_MqttMsgPublishReceived; 
 
 			client.Subscribe(new string[] { "bike/angle" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+			client.Subscribe(new string[] { "bike/elevation" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/velocity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/hand/right" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/hand/left" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
@@ -74,12 +76,6 @@ public class InputOutput {
 	public static void Reset(){
 		velocity = 0f;
 		guidonRotation = 0f;
-	}
-
-	static void P(Byte[] bs){
-		foreach (var b in bs) {
-			Debug.Log(b);
-		}
 	}
 
 	static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e){ 
@@ -119,7 +115,29 @@ public class InputOutput {
 	
 	// Update is called once per frame
 	public static void Update () {
-		bikeXAxis = bike.transform.rotation.x;
+		bikeXAxis = bike.transform.rotation.eulerAngles.x;
+		int elevation;
+
+		while (bikeXAxis < 0f) {
+			bikeXAxis += 360f;
+		}
+
+		if (bikeXAxis >= 359f || bikeXAxis <= 1f) {
+			elevation = 0;
+		} else if (bikeXAxis >= 1f && bikeXAxis <= 180f) {
+			elevation = -1;
+		} else {
+			elevation = 1;
+		}
+
+		if (oldElevation != elevation) {
+			client.Publish ("bike/elevation", System.Text.Encoding.UTF8.GetBytes (elevation.ToString()), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+		}
+
+		oldElevation = elevation;
+
+		Debug.Log (elevation.ToString());
+
 		AudioListener.volume = paused ? 0f : 1f;
 
 		paused = (!rightHand || !leftHand);
@@ -169,7 +187,6 @@ public class InputOutput {
 
 		velocity = Mathf.Clamp (velocity - drag * Time.deltaTime, 0f, 30f);
 		if (Input.GetKey (KeyCode.UpArrow)) {
-			Debug.Log ("Up apertando");
 			velocity = Mathf.Clamp (velocity + acceleration * Time.deltaTime, 0f, 30f);
 		}
 	}
@@ -184,7 +201,6 @@ public class InputOutput {
 	public static void Unlock(){
 		locked = false;
 		drag = 5f;
-		Debug.Log ("Unlock()");
 	}
 
 	public static void Data(){
