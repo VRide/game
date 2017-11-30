@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class CameraMovementScript : MonoBehaviour {
+public class PlayerScript : MonoBehaviour {
 
 	// TODO: remover
 	public int mode;

@@ -46,13 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CameraMovementScript.cs" />
-     <Compile Include="Assets\CheeringScript.cs" />
-     <Compile Include="Assets\FenceAudioScript.cs" />
-     <Compile Include="Assets\GrassAudioScript.cs" />
-     <Compile Include="Assets\HandleBarScript.cs" />
-     <Compile Include="Assets\InputOutput.cs" />
-     <Compile Include="Assets\KneeScript.cs" />
      <Compile Include="Assets\MQTT\scripts\Exceptions\MqttClientException.cs" />
      <Compile Include="Assets\MQTT\scripts\Exceptions\MqttCommunicationException.cs" />
      <Compile Include="Assets\MQTT\scripts\Exceptions\MqttConnectionException.cs" />
@@ -95,7 +88,6 @@
      <Compile Include="Assets\Menu\LookInputModule.cs" />
      <Compile Include="Assets\Menu\MenuController.cs" />
      <Compile Include="Assets\Menu\WeightHeight.cs" />
-     <Compile Include="Assets\NewBehaviourScript.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCrosshair.cs" />
@@ -110,11 +102,7 @@
      <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
-     <Compile Include="Assets\PeopleScript.cs" />
-     <Compile Include="Assets\PlayerInfo.cs" />
      <Compile Include="Assets\SimpleCloudSystem by RM\SceneComponents\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
-     <Compile Include="Assets\SkyScript.cs" />
-     <Compile Include="Assets\Statistics\EmulateValues.cs" />
      <Compile Include="Assets\Statistics\FinalImageScript.cs" />
      <Compile Include="Assets\Statistics\ImageScript.cs" />
      <Compile Include="Assets\Statistics\ResumeScript.cs" />
@@ -123,8 +111,18 @@
      <Compile Include="Assets\Storage\MeasureDAO.cs" />
      <Compile Include="Assets\Storage\Player.cs" />
      <Compile Include="Assets\Storage\PlayerDAO.cs" />
-     <Compile Include="Assets\ThighScript.cs" />
-     <Compile Include="Assets\WheelMovement.cs" />
+     <Compile Include="Assets\Track\CheeringScript.cs" />
+     <Compile Include="Assets\Track\FenceAudioScript.cs" />
+     <Compile Include="Assets\Track\GrassAudioScript.cs" />
+     <Compile Include="Assets\Track\HandleBarScript.cs" />
+     <Compile Include="Assets\Track\InputOutput.cs" />
+     <Compile Include="Assets\Track\KneeScript.cs" />
+     <Compile Include="Assets\Track\PeopleScript.cs" />
+     <Compile Include="Assets\Track\PlayerInfo.cs" />
+     <Compile Include="Assets\Track\PlayerScript.cs" />
+     <Compile Include="Assets\Track\SkyScript.cs" />
+     <Compile Include="Assets\Track\ThighScript.cs" />
+     <Compile Include="Assets\Track\WheelMovement.cs" />
      <None Include="Assets\Plugins\donotdelete.txt" />
      <None Include="Assets\MountainBike\Shaders\Comp_Illumin-Reflect-Diffuse.shader" />
      <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
