@@ -32,8 +32,7 @@ public class PlayerScript : MonoBehaviour {
 	public int nextCheckpoint = 1;
 	private bool finished = false;
 
-	void OnCollisionStay(Collision collision)
-	{
+	void OnCollisionStay(Collision collision) {
 		foreach (ContactPoint contact in collision.contacts) {
 			Debug.DrawRay(contact.point, contact.normal * 10, Color.white);
 		}
@@ -42,21 +41,20 @@ public class PlayerScript : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision collision)
-	{
+	void OnCollisionEnter(Collision collision){
 		if(collision.gameObject.CompareTag("hittable")) hitAudio.Play ();
 	}
 
 	void OnTriggerEnter(Collider collider){
-		if (collider.gameObject.CompareTag ("Terrain")) {
+		if (collider.gameObject.CompareTag ("Terrain")){
 			Reset ();
 		} else if(collider.gameObject.CompareTag("Lap")){
-			print(collider.gameObject.name + " " + collider.gameObject.tag);
+			// Debug.Log(collider.gameObject.name + " " + collider.gameObject.tag);
 			int actualCheckpoint = System.Convert.ToInt32(collider.gameObject.name);
 
 			if(actualCheckpoint == nextCheckpoint && nextCheckpoint == 0){ 
 				laps++;
-				print("Lap " + laps);
+				//Debug.Log("Lap " + laps);
 			} 
 			nextCheckpoint = (actualCheckpoint + 1)%4;
 
@@ -64,8 +62,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 	}
 	
-	void Awake()
-	{		
+	void Awake() {		
 		// We use Controller to move player around
 		Controller = gameObject.GetComponent<CharacterController>();
 		
@@ -90,10 +87,8 @@ public class PlayerScript : MonoBehaviour {
 		DirXform = null;
 		Transform[] Xforms = gameObject.GetComponentsInChildren<Transform>();
 		
-		for(int i = 0; i < Xforms.Length; i++)
-		{
-			if(Xforms[i].name == "ForwardDirection")
-			{
+		for(int i = 0; i < Xforms.Length; i++){
+			if(Xforms[i].name == "ForwardDirection"){
 				DirXform = Xforms[i];
 				break;
 			}
@@ -144,11 +139,8 @@ public class PlayerScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (InputOutput.paused) {
-			Time.timeScale = 0.0001f;
-		}else{
-			Time.timeScale = 1f;
-		}
+		if (InputOutput.paused) { Time.timeScale = 0.0001f;}
+		else{ Time.timeScale = 1f; }
 		float pitch = InputOutput.velocity / 15f;
 		audio.pitch = pitch;
 		if (startTime >= 0) {
@@ -162,14 +154,8 @@ public class PlayerScript : MonoBehaviour {
 		} else {
 			// FIXME: change to destroying object
 
-			if(!finished && !InputOutput.paused){
-				float currentDistance = Vector3.Distance(gameObject.transform.position, lastDistance);
-				totalDistance += currentDistance;
-				if(currentDistance > maxDistance) maxDistance = currentDistance;
-				lastDistance = gameObject.transform.position;
-				time += (float) System.Math.Round (Time.deltaTime, 2);
-				InputOutput.Unlock();
-			}
+			if(!finished && !InputOutput.paused) updateValues ();
+		
 
 			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
 			string s_laps = (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) ? laps + "/" + totalLaps : "MODO LIVRE";
@@ -212,10 +198,19 @@ public class PlayerScript : MonoBehaviour {
 		}
 	}
 
+	private void updateValues (){
+		float currentDistance = Vector3.Distance (gameObject.transform.position, lastDistance);
+		totalDistance += currentDistance;
+		if (currentDistance > maxDistance)
+			maxDistance = currentDistance;
+		lastDistance = gameObject.transform.position;
+		time += (float)System.Math.Round (Time.deltaTime, 2);
+		InputOutput.Unlock ();
+	}
+
 	void Finish(){
 		InputOutput.Data();
 
-		/*
 		if(PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
 			PlayerInfo.currentPlayer.free += 1;
 		else if(PlayerInfo.mode == (int)PlayerInfo.Modes.Running)
@@ -225,7 +220,7 @@ public class PlayerScript : MonoBehaviour {
 		PlayerInfo.currentPlayer.time += Convert.ToInt64(time);
 		
 		PlayerDAO.updatePlayer(PlayerInfo.currentPlayer);
-		*/		
+	
 		Application.LoadLevel("finalstatistic");
 	}
 }

@@ -156,16 +156,6 @@ public class InputOutput {
 		} else {
 			return;
 		}
-
-		/*
-		if (Input.GetKey (KeyCode.UpArrow)) {
-			Debug.Log("Ir pra frente");
-			client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("F"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-		} else {
-			client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("S"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-		}
-		*/
-
 	}
 
 	private static void MqttUpdate(){
@@ -206,11 +196,11 @@ public class InputOutput {
 	public static void Data(){
 		Measure velocity = calculateMeasure(new List<int> (velocities), (int)Measure.Type.Velocity);
 		Measure heartRate = calculateMeasure (heartRates, (int)Measure.Type.HeartRate);
-		//Measure electrodermalActivity = calculateMeasure (electrodermalActivities, (int)Measure.Type.ElectrodermalActivity);  
+		Measure electrodermalActivity = calculateMeasure (electrodermalActivities, (int)Measure.Type.ElectrodermalActivity);  
 
 		MeasureDAO.createMeasure (velocity);
 		MeasureDAO.createMeasure (heartRate);
-		//MeasureDAO.createMeasure (electrodermalActivity);
+		MeasureDAO.createMeasure (electrodermalActivity);
 	}
 
 	public static Measure calculateMeasure (List<int> list, int type){
@@ -224,9 +214,8 @@ public class InputOutput {
 		}
 
 		Debug.Log ("Sum " + sum + " List " + list.Count);
-		//int track = PlayerInfo.currentPlayer.free + PlayerInfo.currentPlayer.running; 
-		int track = 0;
-		return new Measure (track, type, max, min, Convert.ToInt32 (sum / list.Count), 0);
+		int track = PlayerInfo.currentPlayer.free + PlayerInfo.currentPlayer.running; 
+		return new Measure (track, type, max, min, Convert.ToInt32 (sum / list.Count), PlayerInfo.currentPlayer.id);
 	}
 	
 	public static float GetGuidonRotation() {
@@ -246,6 +235,6 @@ public class InputOutput {
 	}
 
 	public static List<int> getHeartRates(){
-			return heartRates;
+		return heartRates;
 	}
 }

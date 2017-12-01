@@ -35,7 +35,6 @@ public class SkyScript : MonoBehaviour {
 		if (PlayerInfo.mode == (int)PlayerInfo.Modes.Free) {
 			Free();
 		}
-
 		if (PlayerInfo.turn == (int)PlayerInfo.Turns.Day) {
 			Day ();
 		} else if (PlayerInfo.turn == (int)PlayerInfo.Turns.Night) {
@@ -75,7 +74,4 @@ public class SkyScript : MonoBehaviour {
 		Debug.Log ("Desativou");
 		directionalLight.GetComponent<Light> ().intensity = 0.2f;
 	}
-
-
-
 }

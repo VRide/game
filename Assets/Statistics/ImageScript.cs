@@ -36,7 +36,7 @@ public class ImageScript : MonoBehaviour {
 				int x2 = x*(j+1);
 				int y2 = height - (i.average * scale);
 				average = Math.Max(average, i.average);
-				Debug.Log("Average " + i.average);
+
 				int x3 = x*j;
 				int y3 = height - (last.min * scale);
 				int x4 = x*(j+1);
