@@ -21,12 +21,14 @@ public class InputOutput {
 	public static float acceleration = 8f;
 	private static bool locked = false;
 	public static bool paused;
+	public static int grass = 0;
 	public static bool quit;
 	public static bool rightHand;
 	public static bool leftHand;
 
 	private static int quantity =0;
 	private static int oldElevation;
+	private static int oldDifficulty;
 	private static long sum = 0;
 	private static float constant = 0.0006f * 31.4159265358979f;
 	private static float standard_deviation = 0f;
@@ -62,6 +64,7 @@ public class InputOutput {
 
 			client.Subscribe(new string[] { "bike/angle" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/elevation" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+			client.Subscribe(new string[] { "bike/difficulty" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/velocity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/hand/right" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/hand/left" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
@@ -136,7 +139,14 @@ public class InputOutput {
 
 		oldElevation = elevation;
 
-		Debug.Log (elevation.ToString());
+		int difficulty = (elevation + 1) * 2 + grass;
+		if (oldDifficulty != difficulty) {
+			client.Publish ("bike/difficulty", System.Text.Encoding.UTF8.GetBytes (difficulty.ToString()), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+		}
+		
+		oldDifficulty = difficulty;
+		
+		Debug.Log (elevation + " " + grass + " " + difficulty.ToString());
 
 		AudioListener.volume = paused ? 0f : 1f;
 
