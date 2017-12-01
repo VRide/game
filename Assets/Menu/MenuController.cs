@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour {
 	private int timeRemaining;
 
 	void Start(){
+		OVRDevice.ResetOrientation();
 		timeRemaining = timeOver;
 	}
 

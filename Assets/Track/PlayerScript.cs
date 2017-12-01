@@ -109,6 +109,7 @@ public class PlayerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//TODO: remover
+		OVRDevice.ResetOrientation ();
 		if (test) {
 			PlayerInfo.mode = this.mode;
 			PlayerInfo.turn = this.turn;

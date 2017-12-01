@@ -64,6 +64,7 @@ public class FinalImageScript : MonoBehaviour
 		
 		void Start () {
 			string filename = gameObject.name;
+			OVRDevice.ResetOrientation ();
 
 			if (filename == "ImageVelocity")
 				values = InputOutput.getVelocities ().ToArray();

@@ -109,11 +109,10 @@ public class InputOutput {
 		} else if (e.Topic == "user/breath") {
 			breath = Convert.ToInt32 (message);
 			breathRates.Add(breath);
-		} /*else if (e.Topic == "bike/electrodermal") {
-			int activity = System.BitConverter.ToInt64 (e.Message, 0);
+		} else if (e.Topic == "bike/electrodermal") {
+			int activity = System.BitConverter.ToInt32 (e.Message, 0);
 			electrodermalActivities.Add(activity);
 		}
-		*/
 	} 
 	
 	// Update is called once per frame
@@ -166,15 +165,6 @@ public class InputOutput {
 		} else {
 			return;
 		}
-
-		/*
-		if (Input.GetKey (KeyCode.UpArrow)) {
-			Debug.Log("Ir pra frente");
-			client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("F"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-		} else {
-			client.Publish ("bike/velocity", System.Text.Encoding.UTF8.GetBytes ("S"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-		}
-		*/
 
 	}
 

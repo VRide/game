@@ -112,6 +112,7 @@ public class ImageScript : MonoBehaviour {
 	}
 	
 	void Start () {
+		OVRDevice.ResetOrientation ();
 		try{
 			Bitmap image = (Bitmap) new Bitmap(width, height);
 
