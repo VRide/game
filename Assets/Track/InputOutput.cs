@@ -236,7 +236,7 @@ public class InputOutput {
 		Debug.Log ("Sum " + sum + " List " + list.Count);
 		//int track = PlayerInfo.currentPlayer.free + PlayerInfo.currentPlayer.running; 
 		int track = 0;
-		return new Measure (track, type, max, min, Convert.ToInt32 (sum / list.Count), 0);
+		return new Measure (track, type, max, min, Convert.ToInt32 (list.Count == 0 ? 0 : sum / list.Count), 0);
 	}
 	
 	public static float GetGuidonRotation() {
