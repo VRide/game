@@ -41,6 +41,10 @@ public class AccountDelete : MonoBehaviour {
 		} else if(gameObject.name == "Yes") {
 			if (PlayerDAO.deletePlayer(PlayerInfo.currentPlayer.id))
 			{
+				var measures = DatabaseSingleton.Instance.db.Select<Measure>("from Measure where playerId==?", Convert.ToInt64(PlayerInfo.currentPlayer.id));
+				foreach(var measure in measures)
+					MeasureDAO.deleteMeasure(measure.id);
+
 				Button button = nextPanelYes.transform.Find(Convert.ToString(PlayerInfo.currentPlayer.id)).GetComponent<Button>();
 				button.GetComponent<AccountSelect>().player = null;
 				AccountSelect.removeButtonLayout(button, PlayerInfo.currentPlayer.id);

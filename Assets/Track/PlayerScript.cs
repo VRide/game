@@ -60,7 +60,10 @@ public class PlayerScript : MonoBehaviour {
 			} 
 			nextCheckpoint = (actualCheckpoint + 1)%4;
 
-			if(laps == totalLaps + 1 && PlayerInfo.mode == (int) PlayerInfo.Modes.Running) finished = true;
+			if(laps == totalLaps + 1 && PlayerInfo.mode == (int) PlayerInfo.Modes.Running) { 
+				finished = true;
+				laps = totalLaps;
+			}
 		}
 	}
 	
