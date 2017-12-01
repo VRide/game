@@ -91,7 +91,7 @@ public class OVRDevice : MonoBehaviour
 
 	void Update()
 	{
-		if (HMD != null && Input.anyKeyDown && HMD.GetHSWDisplayState().Displayed)
+		//if (HMD != null && Input.anyKeyDown && HMD.GetHSWDisplayState().Displayed)
 			HMD.DismissHSWDisplay();
 	}
 	#endregion

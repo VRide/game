@@ -15,7 +15,7 @@ public class InputOutput {
 
 	private static float guidonRotation = 0f;
 	public static float velocity {get; private set;}
-	public static int respiration {get; private set;}
+	public static int breath {get; private set;}
 	private static float bikeXAxis = 0f;
 	public static float drag = 5f;
 	public static float acceleration = 8f;
@@ -38,7 +38,7 @@ public class InputOutput {
 
 	private static List<int> velocities;
 	private static List<int> electrodermalActivities;
-	private static List<int> heartRates;
+	private static List<int> breathRates;
 
 	private static float timer;
 
@@ -53,7 +53,7 @@ public class InputOutput {
 		timer = 0f;
 
 		electrodermalActivities = new List<int> ();
-		heartRates = new List<int> ();
+		breathRates = new List<int> ();
 		velocities = new List<int> ();
 
 		try{
@@ -68,7 +68,7 @@ public class InputOutput {
 			client.Subscribe(new string[] { "bike/velocity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/hand/right" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
 			client.Subscribe(new string[] { "bike/hand/left" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-			client.Subscribe(new string[] { "user/respiration" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+			client.Subscribe(new string[] { "user/breath" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
 			mqtt = true;
 		} catch(System.Exception e){
@@ -106,9 +106,9 @@ public class InputOutput {
 		} else if (e.Topic == "bike/hand/left") {
 			bool hand = (message == "1");
 			leftHand = hand;
-		} else if (e.Topic == "user/respiration") {
-			respiration = Convert.ToInt32 (message);
-			heartRates.Add(respiration);
+		} else if (e.Topic == "user/breath") {
+			breath = Convert.ToInt32 (message);
+			breathRates.Add(breath);
 		} /*else if (e.Topic == "bike/electrodermal") {
 			int activity = System.BitConverter.ToInt64 (e.Message, 0);
 			electrodermalActivities.Add(activity);
@@ -215,7 +215,7 @@ public class InputOutput {
 
 	public static void Data(){
 		Measure velocity = calculateMeasure(new List<int> (velocities), (int)Measure.Type.Velocity);
-		Measure heartRate = calculateMeasure (heartRates, (int)Measure.Type.HeartRate);
+		Measure heartRate = calculateMeasure (breathRates, (int)Measure.Type.HeartRate);
 		//Measure electrodermalActivity = calculateMeasure (electrodermalActivities, (int)Measure.Type.ElectrodermalActivity);  
 
 		MeasureDAO.createMeasure (velocity);
@@ -256,6 +256,6 @@ public class InputOutput {
 	}
 
 	public static List<int> getHeartRates(){
-			return heartRates;
+			return breathRates;
 	}
 }

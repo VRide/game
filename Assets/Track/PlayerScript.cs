@@ -15,11 +15,11 @@ public class PlayerScript : MonoBehaviour {
 	public Transform ovr;
 	public GameObject lastCollided;
 	public GameObject gui;
-	public int totalLaps;
-	private float time;
+	public static int totalLaps;
+	public static float time;
 	private float startTime;
 	private AudioSource audio, hitAudio;
-	private float totalDistance;
+	public static float totalDistance;
 	private float maxDistance;
 	private Vector3 lastDistance;
 
@@ -28,7 +28,7 @@ public class PlayerScript : MonoBehaviour {
 	protected OVRCameraController 	CameraController = null;
 	protected Transform DirXform = null;
 
-	public int laps { get; set; }
+	public static int laps { get; set; }
 	public int nextCheckpoint = 1;
 	private bool finished = false;
 
@@ -161,6 +161,7 @@ public class PlayerScript : MonoBehaviour {
 			}
 		} else {
 			// FIXME: change to destroying object
+			gui.GetComponent<TextMesh> ().text = "";
 
 			if(!finished && !InputOutput.paused){
 				float currentDistance = Vector3.Distance(gameObject.transform.position, lastDistance);
@@ -170,11 +171,6 @@ public class PlayerScript : MonoBehaviour {
 				time += (float) System.Math.Round (Time.deltaTime, 2);
 				InputOutput.Unlock();
 			}
-
-			System.TimeSpan t = System.TimeSpan.FromSeconds (time);
-			string s_laps = (PlayerInfo.mode == (int) PlayerInfo.Modes.Running) ? laps + "/" + totalLaps : "MODO LIVRE";
-			
-			gui.GetComponent<TextMesh> ().text = InputOutput.respiration + "\n\n" + s_laps + "\n" + new System.DateTime(t.Ticks).ToString("mm:ss.f") + "\n" + InputOutput.velocity.ToString("0.00") + "\n" +  totalDistance.ToString("0.00");
 		}
 
 		if (finished) {
