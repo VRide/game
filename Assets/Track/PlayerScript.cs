@@ -122,6 +122,7 @@ public class PlayerScript : MonoBehaviour {
 		audio = gameObject.GetComponents<AudioSource> ()[0];
 		hitAudio = gameObject.GetComponents<AudioSource> ()[1];
 		audio.Play ();
+		audio.pitch = 0f;
 		laps = 1;
 		time = 1;
 		totalLaps = PlayerInfo.laps;
