@@ -216,7 +216,6 @@ public class PlayerScript : MonoBehaviour {
 	void Finish(){
 		InputOutput.Data();
 
-		/*
 		if(PlayerInfo.mode == (int)PlayerInfo.Modes.Free)
 			PlayerInfo.currentPlayer.free += 1;
 		else if(PlayerInfo.mode == (int)PlayerInfo.Modes.Running)
@@ -226,7 +225,7 @@ public class PlayerScript : MonoBehaviour {
 		PlayerInfo.currentPlayer.time += Convert.ToInt64(time);
 		
 		PlayerDAO.updatePlayer(PlayerInfo.currentPlayer);
-		*/		
+
 		Application.LoadLevel("finalstatistic");
 	}
 }

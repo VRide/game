@@ -26,16 +26,16 @@ public class InputOutput {
 	public static bool rightHand;
 	public static bool leftHand;
 
-	private static int quantity =0;
+	private static int discard = 0;
+	private static int quantity = 0;
 	private static int oldElevation;
 	private static int oldDifficulty;
 	private static long sum = 0;
 	private static float constant = 0.0006f * 31.4159265358979f;
-	private static float standard_deviation = 0f;
+	private static float average = 0f;
 	private static GameObject bike;
 	private static MqttClient client;
 	private static bool mqtt;
-
 	private static List<int> velocities;
 	private static List<int> electrodermalActivities;
 	private static List<int> breathRates;
@@ -51,6 +51,7 @@ public class InputOutput {
 		bike = GameObject.Find("Player");
 		velocity = 0f;
 		timer = 0f;
+		discard = 0;
 
 		electrodermalActivities = new List<int> ();
 		breathRates = new List<int> ();
@@ -88,15 +89,19 @@ public class InputOutput {
 		Debug.Log ("Received on " + e.Topic + ": " + message);
 
 		if (e.Topic == "bike/velocity") {
-			sum += Convert.ToInt64 (message);
-			quantity++;
-			if(quantity == 5){
-				standard_deviation = sum/5f;
-				sum = 0;
-				quantity = 0;
-			}
-			Debug.Log(standard_deviation);
-			velocity =  (Convert.ToInt64 (message) + standard_deviation) * constant;
+			long instant = Convert.ToInt64 (message); 
+			if(instant < 3f*average || discard > 5) {
+				discard = 0;
+				sum += instant;
+				quantity++;
+				if(quantity == 5){
+					average = sum/5f;
+					sum = 0;
+					quantity = 0;
+				}
+				Debug.Log(average);
+				velocity =  (Convert.ToInt64 (message) + average) * constant;
+			}else discard++;
 		} else if (e.Topic == "bike/angle") {	
 			long angle = Convert.ToInt64 (message);
 			guidonRotation = angle;
@@ -113,6 +118,8 @@ public class InputOutput {
 			int activity = System.BitConverter.ToInt32 (e.Message, 0);
 			electrodermalActivities.Add(activity);
 		}
+
+		rightHand = leftHand = true;
 	} 
 	
 	// Update is called once per frame
